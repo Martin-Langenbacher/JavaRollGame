@@ -1,6 +1,6 @@
 package de.ml.game;
 
-public class StartDungeon extends DungonBoard{
+public class StartDungeon extends DungeonBoard{
 
 	public StartDungeon(String[] boardStrings, String nameOfBoard, int levelOfBoard) {
 		super(boardStrings, nameOfBoard, levelOfBoard);

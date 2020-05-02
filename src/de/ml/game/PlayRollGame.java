@@ -1,14 +1,21 @@
 package de.ml.game;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+
 
 public class PlayRollGame {
-	
-	private static int numberOfLinesForLevel1Dungeon = 11;
 
 	
 	public static void main(String[] args) {
+		
+		InputStreamReader isr = new InputStreamReader(System.in);
+		BufferedReader br = new BufferedReader(isr);
+		
+		int numberOfLinesForLevel1Dungeon = 11;
+		String eingabe;
 		
 		// erstelle StartDungeon: 
 		StartDungeon dungeonLevel1 = new StartDungeon(new String[numberOfLinesForLevel1Dungeon], "StartDungeon", 1);
@@ -32,25 +39,282 @@ public class PlayRollGame {
 		
 		
 		// erstelle Player & Monster: Id, name, 'A', Level, Life, Strength, Defense, visible, experience, Position
-		Point startPositionPlayer = new Point(4,4);
+		Point startPositionPlayer = new Point(5,9);
 		Character player = new Character(0, "Player", '*', 1, 10, 2, 2, true, 100, startPositionPlayer);
-		Character monster1 = new Character(1, "Eddi-Schreck", 'A', 1, 5, 2, 1, false, 200, new Point(2,3));
+		Character monster1 = new Character(1, "Eddi-Schreck", 'A', 1, 5, 2, 1, false, 200, new Point(3,3));
 		
 		
-		
+		/*
 		System.out.println();
 		System.out.println(player);
 		System.out.println(monster1);
 		System.out.println(monster1.getCharacterPosition().x);
+		*/
 		
 		
 				
 		// erstelle Item
 		Item smallsword = new Item(1, "Small Sword", true, 5);
 		Item potion = new Item(2, "Healing Potion(6)", false, 6);
-		System.out.println();
+		/*System.out.println();
 		System.out.println(smallsword);
-		System.out.println(potion);
+		System.out.println(potion); */
+		
+		
+		//
+		// GameIsPlaying
+		//
+		System.out.println("========================================>>>>>>>>>>> GameStarts <<<<<<<<<<=================================");
+		
+		boolean gameIsPlaying = true;
+		int round = 0; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<<<================================================= Change with when won...!
+		
+		do {
+			round++;
+			
+			
+			// 1) Eingabe korrekt?   UND   2) Move possible?
+			boolean inputOk = false;
+			Point stepToThisPoint = new Point(0,0);
+			while (!inputOk) {
+				System.out.println("Bitte wählen: ");
+				System.out.println("e: hoch | s: links | d: rechts | x: runter");
+				
+				switch (new Scanner(System.in).next().toLowerCase()) {
+				case "e":
+					System.out.println("hoch");
+					stepToThisPoint.x = player.getCharacterPosition().x;
+					stepToThisPoint.y = player.getCharacterPosition().y - 1;
+				
+					break;
+				case "s":
+					System.out.println("links");
+					stepToThisPoint.x = player.getCharacterPosition().x - 1;
+					stepToThisPoint.y = player.getCharacterPosition().y;
+					break;
+				case "d":
+					System.out.println("rechts");
+					stepToThisPoint.x = player.getCharacterPosition().x + 1;
+					stepToThisPoint.y = player.getCharacterPosition().y;
+					break;
+				case "x":
+					System.out.println("runter");
+					stepToThisPoint.x = player.getCharacterPosition().x;
+					stepToThisPoint.y = player.getCharacterPosition().y + 1;
+					break;
+
+					
+				default:
+					System.out.println("Falsche Eingabe !!! --> Nochmal.");
+					continue;
+				}				
+				
+				// Standort muss übergeben werden &&&& Änderung von oben... !
+				if (MoveOfPlayer.movePossible(dungeonLevel1, stepToThisPoint)) {
+					inputOk = true;
+					System.out.println("bolean: true :::" + inputOk);
+				} else {
+					System.out.println("bolean: false :::" + inputOk);
+					System.out.println("Buchstabe ist richtig, aber ggf. der Move noch nicht ============> Jetzt folgt der Check...!");
+					continue;
+				}
+				
+				
+				
+
+				
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			// 3) Bewegung durchführen
+			
+			
+			
+			
+			
+			
+			// 4) Dungon zeigen:
+			System.out.println();
+			for (int i = 0; i < dungeonLevel1.getBoardStrings().length; i++) {
+				System.out.println(dungeonLevel1.getBoardStrings()[i]);
+			}
+			
+			
+			// 5) Erreignis: Ja / Nein?
+			
+			
+			// 6) Mache Erreignis (z.B. Kampf)
+			
+			
+			// 7) Player hat verlohren? Sonst weiter ...
+			
+			
+			
+			
+			
+			if (round > 0) {
+				gameIsPlaying = false;
+			}
+		} while (gameIsPlaying);
+		
+		
+		System.out.println("========================================>>>>>>>>>>>  End of Game  <<<<<<<<<<==============================");
+		
+		
+		
+		
+		
+		
+		
+		/*
+		
+		// Zeige Rennstrecke
+		k = 0;
+		boolean ende = false;
+
+		do {
+			k++;
+			String goString = ">";
+			// System.out.println("k: " +k);
+			System.out.println(" ");
+			System.out.println(" ");
+			if (k < 9) {
+				System.out.println(" >" + goString.repeat(k / 2) + " GO! ");
+				// System.out.println(" GO " +goString.repeat(k/2) +">");
+			} else {
+				System.out.println(" ");
+			}
+
+			// Print Bahn mit Boot
+			for (int i = 0; i < amountOfBoats; i++) {
+				if (i == 0) {
+					System.out.println(rennstrecke1.get(i).getRandStringBahn());
+				}
+				System.out.println(rennstrecke1.get(i).getBackboardWater());
+
+				// in der ersten Runde noch keine Position ausgeben (da vorher nicht mit
+				// Set-Bestätigt...!
+				if (k == 1) {
+					System.out.println(rennstrecke1.get(i).getMiddleStringBoat());
+				} else {
+					System.out.println(
+							rennstrecke1.get(i).getMiddleStringBoat() + " " + boote.get(i).getPosition() + ".");
+				}
+
+				System.out.println(rennstrecke1.get(i).getStarboardWater());
+				if (i == amountOfBoats - 1) {
+					System.out.println(rennstrecke1.get(i).getRandStringBahn());
+				} else {
+					System.out.println(rennstrecke1.get(i).getRandStringMiddle());
+				}
+			}
+			// neue Position von Booten
+			for (int j = 0; j < amountOfBoats; j++) {
+
+				double leistungBoot = boote.get(j).getLeistungBoot();
+				double sqrtTeilstrecke = Math.sqrt(leistungBoot) / factorForSpeedOfBoat; // Leistung umgerechnet in
+																						 // Strecke (pro Schritt)
+				double teilstreckeMitFaktor = sqrtTeilstrecke * boote.get(j).luckFaktor(lengthOfRacingField);
+				//System.out.println(boote.get(j).luckFaktor(lengthOfRacingField) + ": Lucky-Faktor");
+
+				
+
+				// streckeGesamt muss am Anfang immer mindestens 1 sein!
+				boote.get(j).setStreckeMade(teilstreckeMitFaktor + boote.get(j).getStreckeMade());
+				int streckeGesamt = (int) boote.get(j).getStreckeMade() + ausgleichsfaktor;
+				if (streckeGesamt <= 1) {
+					streckeGesamt = 1;
+				}
+
+				// Abfrage START
+				int varZwischen = streckeGesamt + boote.get(j).getLengthOfBoot();
+				if (streckeGesamt + boote.get(j).getLengthOfBoot() >= lengthOfRacingField + ausgleichsfaktor) {
+					streckeGesamt = lengthOfRacingField - boote.get(j).getLengthOfBoot() + ausgleichsfaktor;
+				}
+
+				// x-Position SET...
+				boote.get(j).setxPos(boote.get(j).getxPos()
+						+ (streckeGesamt - (boote.get(j).getxPos() - boote.get(j).getLengthOfBoot())));
+
+				boote.get(j).bootEinsetzen(rennstrecke1.get(j));
+
+				// Abfrage, falls rechter Rand...!
+				if (boote.get(j).getStreckeMade() >= lengthOfRacingField - boote.get(j).getLengthOfBoot()) {
+					boote.get(j).setWinner(true);
+					if (laengsteDistanzImRennen < boote.get(j).getStreckeMade()) {
+						laengsteDistanzImRennen = boote.get(j).getStreckeMade();
+					}
+					ende = true;
+				}
+
+				
+
+				// Markus INPUT !!!!!!!!!!!!
+				// AnonymeKlasse
+				//
+				// Position zuordnen (mit sortieren !!!)
+				List<Boot> gerankteBoote = new ArrayList<Boot>(boote);
+				Collections.sort(gerankteBoote, new Comparator<Boot>() {
+					@Override
+					public int compare(Boot boot1, Boot boot2) {
+						return Double.valueOf(boot2.getStreckeMade()).compareTo(boot1.getStreckeMade());
+					}
+				});
+
+				zaehler = 0;
+				for (Boot temp : gerankteBoote) {
+					++zaehler;
+					temp.setPosition(zaehler);
+				}
+
+			}
+
+			// slowing down time...
+			Thread.sleep(400, 0);
+
+		} while (!ende);
+
+		// Who is the winner?
+		*/
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		

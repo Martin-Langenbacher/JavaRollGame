@@ -1,6 +1,6 @@
 package de.ml.game;
 
-public abstract class DungonBoard {
+public abstract class DungeonBoard {
 	
 	private static int numberOfBoards;
 	private int levelOfBoard;
@@ -28,7 +28,7 @@ public abstract class DungonBoard {
 	*/
 	
 	// constructor
-	public DungonBoard(String[] boardStrings, String nameOfBoard, int levelOfBoard) {
+	public DungeonBoard(String[] boardStrings, String nameOfBoard, int levelOfBoard) {
 		this.boardStrings = boardStrings;
 		this.nameOfBoard = nameOfBoard;
 		this.levelOfBoard = levelOfBoard;
@@ -45,7 +45,7 @@ public abstract class DungonBoard {
 
 
 	public static void setNumberOfBoards(int numberOfBoards) {
-		DungonBoard.numberOfBoards = numberOfBoards;
+		DungeonBoard.numberOfBoards = numberOfBoards;
 	}
 
 
