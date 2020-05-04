@@ -7,6 +7,7 @@ public class Item {
 	private int itemId;
 	private String itemName;
 	private boolean visible;
+	char itemChar;
 	private boolean playerHasItem;
 	private boolean isWeapon;      // otherwise it is a tool, like a key, or healing
 	private Point itemPosition;
@@ -14,7 +15,7 @@ public class Item {
 	
 	
 	// constructor
-	public Item(int itemId, String itemName, boolean isWeapon, int itemStrength) {
+	public Item(int itemId, String itemName, boolean isWeapon, int itemStrength, Point itemPosition) {
 		super();
 		this.itemId = itemId;
 		this.itemName = itemName;
@@ -22,7 +23,8 @@ public class Item {
 		this.itemStrength = itemStrength;
 		this.visible = false;
 		this.playerHasItem = false;
-		this.itemPosition = new Point(-1, -1);
+		this.itemPosition = itemPosition;
+		this.itemChar = '$';
 	}
 
 
@@ -31,6 +33,18 @@ public class Item {
 	public int getItemId() {
 		return itemId;
 	}
+
+
+	public char getItemChar() {
+		return itemChar;
+	}
+
+
+
+	public void setItemChar(char itemChar) {
+		this.itemChar = itemChar;
+	}
+
 
 
 	public void setItemId(int itemId) {

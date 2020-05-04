@@ -1,107 +1,88 @@
 package de.ml.game;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 public class MoveOfPlayer {
 	
 	// movePossible
 	public static boolean movePossible(DungeonBoard dungeonLevel1, Point stepToThisPoint) {
 		
-		System.out.println("9-Zeile: " +dungeonLevel1.getBoardStrings()[9]);
-		
-		String testString = dungeonLevel1.getBoardStrings()[9];
-		System.out.println("testString: -->" +testString);
-		
-		StringBuilder myString = new StringBuilder(dungeonLevel1.getBoardStrings()[stepToThisPoint.y+1]); // just for the test...
-		//StringBuilder myString = new StringBuilder(dungeonLevel1.getBoardStrings()[stepToThisPoint.y]);
+		String checkThisString = dungeonLevel1.getBoardStrings()[stepToThisPoint.y];
 		int index = (2 * stepToThisPoint.x);
-		char ch = 'A';
-		myString.setCharAt(index, ch);
+		String ch = checkThisString.substring(index, index+1);		
 		
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>		
-		
-		// Check with André
-		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		//
-		// --> ??? --> 	dungeonLevel1.setBoardStrings(myString.toString())[9];
-		
-//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<		
-		
-		testString = myString.toString();
-		System.out.println("testString: -->" +testString);
-		
-		return true;
+		if (ch.equals("|") || ch.equals("=")) {
+			//System.out.println("Zeichen: ---->'"+ ch +"'<----");
+			return false;
+		} else {
+			if (ch.equals("#")) {
+				System.out.println("Achtung Tür, es ist aber erlaubt auf dieses Feld zu treten...!");
+			}
+			//System.out.println("Zeichen: ---->'"+ ch +"'<----");
+			return true;
+		}
 	}
-		
-		
-		
-		
-		/*
-		
-		public String replaceChar(String str, char ch, int index) {
-    StringBuilder myString = new StringBuilder(str);
-    myString.setCharAt(index, ch);
-    return myString.toString();
-}
-		
-		
-		
-		
-		
-		dungeonLevel1.getBoardStrings()..
-		
-		boardStrings[8] =  "|=======|           |";
-		String[] boardStrings2 = new String[4];
-		dungeonLevel1.setBoardStrings(boardStrings2)[8];
-		
-		
-		
-		dungeonLevel1.setNameOfBoard("Bla");
-		String[] srings2 = new String[4],
-		String[][] bla;
-		dungeonLevel1.setBoardStrings(String[] string2[]);
-		//new String[numberOfLinesForLevel1Dungeon],
-		
-		
-/*
-		public String getNameOfBoard() {
-			return nameOfBoard;
-		}
-		public void setNameOfBoard(String nameOfBoard) {
-			this.nameOfBoard = nameOfBoard;
-		}
-		public String[] getBoardStrings() {
-			return boardStrings;
-		}
-		public void setBoardStrings(String[] boardStrings) {
-			this.boardStrings = boardStrings;
-		}
-		
-		
-		
-		//boardStrings[0] =  "==============#======";
-		
-		
-		public void setBoardStrings(String[] boardStrings) {
-			this.boardStrings = boardStrings;
-		}
-		
-		
-		
-		
-		.setBoardStrings(String[] myString.toString());
-		dungeonLevel1.setBoardStrings((myString.toString()))[8]; +/
-		
-		System.out.println("9-Zeile: " +dungeonLevel1.getBoardStrings()[stepToThisPoint.y]);
-		
-		System.out.println(dungeonLevel1.getBoardStrings()[9].length());
-		//System.out.println("Player-Pos-X: " +player.getCharacterPosition().x);
-		//System.out.println("Player-Pos-Y: " +player.getCharacterPosition().y);
-		
-		//return false;
-		return true;
-	}
+
 	
+	
+	
+	
+	public static void printDungeon(DungeonBoard dungeonLevel1, Point stepToThisPoint, ArrayList<Item> monsterAndItems) {
+		
+		int dungeonSize = dungeonLevel1.getBoardStrings().length;
+		String[] stringToPrint = new String[dungeonSize];
+		int index;
+		char ch;
+		
+		// 1: String-Dungeon erstellen
+		for (int i = 0; i < dungeonSize; i++) {
+			stringToPrint[i] = dungeonLevel1.getBoardStrings()[i];
+		}
+		
+		// 2: Strings mit Items erstellen
+		for (int i = 0; i < monsterAndItems.size(); i++) {
+			for (int j = 0; j < dungeonSize; j++) {
+				if (j == monsterAndItems.get(i).getItemPosition().y && monsterAndItems.get(i).isVisible() == true) {
+					index = (2 * monsterAndItems.get(i).getItemPosition().x);
+					ch = monsterAndItems.get(i).getItemChar();
+					StringBuilder myString = new StringBuilder(stringToPrint[j]);
+					myString.setCharAt(index, ch);
+					stringToPrint[j] = myString.toString();				
+				}
+			}
+		}
+		
+		
+		// 3: Strings mit Player hinzufügen
+		for (int i = 0; i < dungeonSize; i++) {
+			if (i == stepToThisPoint.y) {
+				index = (2 * stepToThisPoint.x);
+				ch = '*';
+				StringBuilder myString = new StringBuilder(stringToPrint[i]);
+				myString.setCharAt(index, ch);
+				stringToPrint[i] = myString.toString(); 
+			}
+		}
+		
+		
+		
+		// 4: String drucken
+		System.out.println();
+		
+		for (int i = 0; i < dungeonSize; i++) {
+			System.out.println(stringToPrint[i]); 
+		}
+	}			
+}
+
+
+
+
+
+
+
+
 	/*
 
 
@@ -153,23 +134,5 @@ public String replaceChar(String str, char ch, int index) {
 
 	
 	*/
-
-}
-
-
-
-
-/*
-
-
-
-
-package AndreUebungObjectOrientiert;
-
-public class C {
-	
-	public static void foo2() {}
-
-}
-
-*/
+		
+			

@@ -32,7 +32,8 @@ public abstract class DungeonBoard {
 		this.boardStrings = boardStrings;
 		this.nameOfBoard = nameOfBoard;
 		this.levelOfBoard = levelOfBoard;
-		setNumberOfBoards(getNumberOfBoards() + 1);
+		numberOfBoards++;
+		// (ml alt): setNumberOfBoards(getNumberOfBoards() + 1);
 	}
 
 

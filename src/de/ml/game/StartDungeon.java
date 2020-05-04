@@ -1,8 +1,51 @@
 package de.ml.game;
 
 public class StartDungeon extends DungeonBoard{
+	
+	public StartDungeon() {
+		super(new String[] {
+				"==============#======",
+				"|               |XXX|",
+				"|   |===============|",
+				"|   |   |           |",
+				"|   |   |   |   |===|",
+				"|   |   |   |       |",
+				"|   |   |=======|   |",
+				"|           |       |",
+				"|=======|           |",
+				"|XXXXXXX|   |       |",
+				"==========#=========="
+		}, "StartDungeon", 1);
+	}
+}
 
-	public StartDungeon(String[] boardStrings, String nameOfBoard, int levelOfBoard) {
+
+// Zum lernen von André:
+
+// Die Instanzmethoden sind allein dafür da, entweder Informationen über den Objektzustand in irgendeiner Form nach
+// aussen zu geben oder den Zustand des Objekts in irgendeiner Form zu manipulieren. Die klassischen Getter- und
+// Setter-Methoden sind ja nur der einfachste Weg, das zu tun. Du kannst ja auch sowas wie
+
+// 			public char getField(int x, int y) {...}  oder
+//			public void setField(int x, int y, char value) {...} machen.
+	
+	
+	
+	
+	
+	
+	// ----------------------> André fragen: Wie geht es, wenn ich hier erst den String[]-Array definiere (und vorher nicht übergebe?
+	
+	
+	
+	
+	/*
+	public StartDungeon() {
+		super(boardStrings, nameOfBoard, levelOfBoard);
+		
+	
+	  
+	 * public StartDungeon(String[] boardStrings, String nameOfBoard, int levelOfBoard) {
 		super(boardStrings, nameOfBoard, levelOfBoard);
 		
 		boardStrings[0] =  "==============#======";
@@ -16,15 +59,11 @@ public class StartDungeon extends DungeonBoard{
 		boardStrings[8] =  "|=======|           |";
 		boardStrings[9] =  "|XXXXXXX|   |       |";
 		boardStrings[10] = "==========#==========";
-		
-	}
-	
-	
-	
-	// ----------------------> André fragen: Wie geht es, wenn ich hier erst den String[]-Array definiere (und vorher nicht übergebe?
-	
-	
-	/*
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
 	public StartDungeon(String nameOfBoard, int levelOfBoard) {
 		super(new String[] boardStrings[10], nameOfBoard, levelOfBoard);
 		
@@ -40,7 +79,7 @@ public class StartDungeon extends DungeonBoard{
 	
 	
 	
-}	
+
 /*	
 
 

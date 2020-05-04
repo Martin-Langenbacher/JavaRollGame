@@ -3,6 +3,8 @@ package de.ml.game;
 import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Scanner;
 
 
@@ -14,34 +16,18 @@ public class PlayRollGame {
 		InputStreamReader isr = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(isr);
 		
-		int numberOfLinesForLevel1Dungeon = 11;
 		String eingabe;
 		
+		
 		// erstelle StartDungeon: 
-		StartDungeon dungeonLevel1 = new StartDungeon(new String[numberOfLinesForLevel1Dungeon], "StartDungeon", 1);
-		
-		
-		
-		
-		// ----> Wie geht das ????????????????????????????????????????????????????????????????????????????????
-		//StartDungeon dungeonLevel2 = new StartDungeon("StartDungeon", 2);
-		
-		//Bootcamp bonn = new Bootcamp(members, trainer);
-		//Bootcamp bonn = new Bootcamp(new String[] {"Martin", "Frank", "Michael"}, "Markus");
-		//Bootcamp darmstadt = new Bootcamp(new String[] {"Alexander", "Monika", "Bert"}, "David", 2, true);
-		
-		
-		// print StartDungon:
-		for (int i = 0; i < dungeonLevel1.getBoardStrings().length; i++) {
-			System.out.println(dungeonLevel1.getBoardStrings()[i]);
-		}
-		
+		DungeonBoard dungeonLevel1 = new StartDungeon();
+		//StartDungeon dungeonLevel1 = new StartDungeon(new String[numberOfLinesForLevel1Dungeon], "StartDungeon", 1);
 		
 		
 		// erstelle Player & Monster: Id, name, 'A', Level, Life, Strength, Defense, visible, experience, Position
 		Point startPositionPlayer = new Point(5,9);
 		Character player = new Character(0, "Player", '*', 1, 10, 2, 2, true, 100, startPositionPlayer);
-		Character monster1 = new Character(1, "Eddi-Schreck", 'A', 1, 5, 2, 1, false, 200, new Point(3,3));
+		Character monster1 = new Character(1, "Eddi-Schreck", 'A', 1, 5, 2, 1, false, 200, new Point(2,3));
 		
 		
 		/*
@@ -53,54 +39,73 @@ public class PlayRollGame {
 		
 		
 				
-		// erstelle Item
-		Item smallsword = new Item(1, "Small Sword", true, 5);
-		Item potion = new Item(2, "Healing Potion(6)", false, 6);
-		/*System.out.println();
-		System.out.println(smallsword);
-		System.out.println(potion); */
+		// erstelle Item ===>> (int itemId, String itemName, boolean isWeapon, int itemStrength)
+		Item smallsword = new Item(1, "Small Sword", true, 5, new Point(1,1));
+		Item potion = new Item(2, "Healing Potion(6)", false, 6, new Point(2,1));
+		Item gold = new Item(3, "Gold (100)", false, 100, new Point(3,1));
+				
+
+		
+		ArrayList<Item> monsterAndItems = new ArrayList<>();
+		monsterAndItems.add(smallsword);
+		monsterAndItems.add(potion);
+		monsterAndItems.add(gold);
+		monsterAndItems.add(new Item (4, "Gold (200)", false, 200, new Point(9,9)));
+		
+		
+		
+		
+		// !!!!!!!!!!!!!!!!! Visibility Handler
+		for (int i = 0; i < monsterAndItems.size(); i++) {
+			monsterAndItems.get(i).setVisible(true);
+		}
+		
+		
 		
 		
 		//
 		// GameIsPlaying
 		//
+		System.out.println();
 		System.out.println("========================================>>>>>>>>>>> GameStarts <<<<<<<<<<=================================");
 		
 		boolean gameIsPlaying = true;
-		int round = 0; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<<<================================================= Change with when won...!
+		int round = 0; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<<<================================================= Change with when lost !!!...!
 		
+		MoveOfPlayer.printDungeon(dungeonLevel1, startPositionPlayer, monsterAndItems);
+		int dungeonXSize = (1+dungeonLevel1.getBoardStrings()[0].length())/2;
+		//System.out.println("X: " + dungeonXSize);
+		int dungeonYSize = dungeonLevel1.getBoardStrings().length;
+		//System.out.println("Y: " + dungeonYSize);
+				
 		do {
 			round++;
-			
 			
 			// 1) Eingabe korrekt?   UND   2) Move possible?
 			boolean inputOk = false;
 			Point stepToThisPoint = new Point(0,0);
+			
+			
 			while (!inputOk) {
 				System.out.println("Bitte wählen: ");
 				System.out.println("e: hoch | s: links | d: rechts | x: runter");
 				
 				switch (new Scanner(System.in).next().toLowerCase()) {
 				case "e":
-					System.out.println("hoch");
 					stepToThisPoint.x = player.getCharacterPosition().x;
-					stepToThisPoint.y = player.getCharacterPosition().y - 1;
-				
+					stepToThisPoint.y = Math.max(0, player.getCharacterPosition().y - 1 );
 					break;
 				case "s":
-					System.out.println("links");
-					stepToThisPoint.x = player.getCharacterPosition().x - 1;
+					stepToThisPoint.x = Math.max( 0, player.getCharacterPosition().x - 1);
 					stepToThisPoint.y = player.getCharacterPosition().y;
 					break;
 				case "d":
-					System.out.println("rechts");
-					stepToThisPoint.x = player.getCharacterPosition().x + 1;
+					stepToThisPoint.x = Math.min(dungeonXSize-1, player.getCharacterPosition().x + 1);
 					stepToThisPoint.y = player.getCharacterPosition().y;
 					break;
 				case "x":
-					System.out.println("runter");
 					stepToThisPoint.x = player.getCharacterPosition().x;
-					stepToThisPoint.y = player.getCharacterPosition().y + 1;
+					stepToThisPoint.y = Math.min(dungeonYSize-1, player.getCharacterPosition().y + 1);
 					break;
 
 					
@@ -108,45 +113,49 @@ public class PlayRollGame {
 					System.out.println("Falsche Eingabe !!! --> Nochmal.");
 					continue;
 				}				
+				//System.out.println("Point: -->" + stepToThisPoint);
 				
-				// Standort muss übergeben werden &&&& Änderung von oben... !
+				// new placement of player - after move is OK!
 				if (MoveOfPlayer.movePossible(dungeonLevel1, stepToThisPoint)) {
 					inputOk = true;
-					System.out.println("bolean: true :::" + inputOk);
+					player.setCharacterPosition(stepToThisPoint);
+					
 				} else {
-					System.out.println("bolean: false :::" + inputOk);
-					System.out.println("Buchstabe ist richtig, aber ggf. der Move noch nicht ============> Jetzt folgt der Check...!");
 					continue;
 				}
-				
-				
-				
-
-				
 			}
 			
 			
 			
+			// 3) Dungeon mit Bewegung und Dinge zeigen
+			MoveOfPlayer.printDungeon(dungeonLevel1, stepToThisPoint, monsterAndItems);
 			
-			
-			
-			
-			
-			// 3) Bewegung durchführen
-			
-			
-			
-			
-			
-			
-			// 4) Dungon zeigen:
-			System.out.println();
-			for (int i = 0; i < dungeonLevel1.getBoardStrings().length; i++) {
-				System.out.println(dungeonLevel1.getBoardStrings()[i]);
-			}
-			
+			System.out.println("lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
 			
 			// 5) Erreignis: Ja / Nein?
+			System.out.println(player.getCharacterPosition());
+			System.out.println(monsterAndItems.get(0).getItemPosition());
+			System.out.println(monsterAndItems.get(1).getItemPosition());
+			System.out.println(monsterAndItems.get(2).getItemPosition());
+			System.out.println(monsterAndItems.get(3).getItemPosition());
+			
+			
+			
+			
+			for (int i = 0; i < monsterAndItems.size(); i++) {
+				if (player.getCharacterPosition().equals(monsterAndItems.get(i).getItemPosition())) {
+					System.out.println("-------> Sie stehen auf einem Item und können was tun; danach wird item unsichtbar");
+					System.out.println("Dies ist Item: -->" +monsterAndItems.get(i).getItemName());
+					monsterAndItems.get(i).setVisible(false);
+					
+					
+					
+					
+					
+				}
+				
+			}
+			
 			
 			
 			// 6) Mache Erreignis (z.B. Kampf)
@@ -158,7 +167,7 @@ public class PlayRollGame {
 			
 			
 			
-			if (round > 0) {
+			if (round > 100) {
 				gameIsPlaying = false;
 			}
 		} while (gameIsPlaying);
