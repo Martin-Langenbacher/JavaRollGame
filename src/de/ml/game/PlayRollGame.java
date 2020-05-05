@@ -55,7 +55,7 @@ public class PlayRollGame {
 		
 		
 		
-		// !!!!!!!!!!!!!!!!! Visibility Handler
+		// !!!!!!!!!!!!!!!!! Visibility: true/false?
 		for (int i = 0; i < monsterAndItems.size(); i++) {
 			monsterAndItems.get(i).setVisible(true);
 		}
@@ -66,6 +66,19 @@ public class PlayRollGame {
 		//
 		// GameIsPlaying
 		//
+		
+		CompleteBoard board = new CompleteBoard(); dungeonLevel1 = new StartDungeon();
+		System.out.println();
+		//System.out.println();
+		//board.printBoard();
+		
+		System.out.println("========================================>>>>>>>>>>> Gesamtes Brett");
+		board.printBoard(dungeonLevel1, player, monsterAndItems);
+		System.out.println("========================================>>>>>>>>>>> Ende !!!!!!!!!");
+		
+		
+		
+		
 		System.out.println();
 		System.out.println("========================================>>>>>>>>>>> GameStarts <<<<<<<<<<=================================");
 		
@@ -73,6 +86,7 @@ public class PlayRollGame {
 		int round = 0; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<<<================================================= Change with when lost !!!...!
 		
 		MoveOfPlayer.printDungeon(dungeonLevel1, startPositionPlayer, monsterAndItems);
+		
 		int dungeonXSize = (1+dungeonLevel1.getBoardStrings()[0].length())/2;
 		//System.out.println("X: " + dungeonXSize);
 		int dungeonYSize = dungeonLevel1.getBoardStrings().length;
