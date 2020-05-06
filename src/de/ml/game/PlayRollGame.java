@@ -40,10 +40,12 @@ public class PlayRollGame {
 		
 				
 		// erstelle Item ===>> (int itemId, String itemName, boolean isWeapon, int itemStrength)
+		Item knife = new Item(0, "Knife", true, 2, new Point(0,0));
 		Item smallsword = new Item(1, "Small Sword", true, 5, new Point(1,1));
-		Item potion = new Item(2, "Healing Potion(6)", false, 6, new Point(2,1));
-		Item gold = new Item(3, "Gold (100)", false, 100, new Point(3,1));
-				
+		Item potion = new Item(2, "Healing Potion", false, 16, new Point(2,1));
+		Item gold = new Item(3, "Gold", false, 500, new Point(3,1));
+		Item item = new Item(4, "Item Potion", false, 16, new Point(2,1));
+		Item item2 = new Item(5, "Item Potion2", false, 6, new Point(2,1));
 
 		
 		ArrayList<Item> monsterAndItems = new ArrayList<>();
@@ -51,6 +53,17 @@ public class PlayRollGame {
 		monsterAndItems.add(potion);
 		monsterAndItems.add(gold);
 		monsterAndItems.add(new Item (4, "Gold (200)", false, 200, new Point(9,9)));
+		
+		// Items of Character:
+		ArrayList<Item> itemsOfCharacter = new ArrayList<>();
+		itemsOfCharacter.add(knife);
+		itemsOfCharacter.add(smallsword);
+		itemsOfCharacter.add(potion);
+		//itemsOfCharacter.add(gold);
+		//itemsOfCharacter.add(item);
+		//itemsOfCharacter.add(item2);
+		// Check with André !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
 		
 		
 		
@@ -73,7 +86,7 @@ public class PlayRollGame {
 		//board.printBoard();
 		
 		System.out.println("========================================>>>>>>>>>>> Gesamtes Brett");
-		board.printBoard(dungeonLevel1, player, monsterAndItems);
+		board.printBoard(dungeonLevel1, player, monsterAndItems, itemsOfCharacter);
 		System.out.println("========================================>>>>>>>>>>> Ende !!!!!!!!!");
 		
 		

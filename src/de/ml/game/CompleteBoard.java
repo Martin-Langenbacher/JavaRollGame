@@ -1,6 +1,6 @@
 package de.ml.game;
 
-import java.awt.Point;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public final class CompleteBoard {
@@ -12,6 +12,15 @@ public final class CompleteBoard {
 	// c) String nachkommen = {"asdf", "asdf", "asdf"}
 	
 	private String[] board;
+	int zahl;
+	String stringItems;
+	int lengthOfNumber;
+	int lengthOfString;
+	String empty = " ";
+	String zahlString;
+	int itemsCounter;
+	int delta;
+	boolean fighting = false;
 	
 	
 	
@@ -66,19 +75,61 @@ public final class CompleteBoard {
 	}
 
 
+	
+	// String manupulation:
+	
+	/*
+	  
+	String.length() gibt die Länge eines Strings zurück.
+	String.substring(int beginn, int ende) gibt einen Teilstring zurück.
+	String.indexOf(String str, int von) gibt die Position des ersten Vorkommens eines Strings ab der spezifizierten Position zurück.
+
+
+
+	String str = "abc";
+	String repeated = str.repeat(3);
+	repeated.equals("abcabcabc");
+				
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 
 
-	public void printBoard(DungeonBoard dungeonLevel1, Character player, ArrayList<Item> monsterAndItems) {
+	public void printBoard(DungeonBoard dungeonLevel1, Character player, ArrayList<Item> monsterAndItems, ArrayList<Item> itemsOfCharacter) {
 		
 		String[] boardWithContent = new String[board.length];
+		itemsCounter = 0;
 		
 		//System.out.println(board[0].length() + "<==== Länge des Boards (x-Achse) !!!!!!!!!!!!!!!!!!!!!!!!");
 		//System.out.println(board.length + "<==== Länge des Boards (y-Achse) !!!!!!!!!!!!!!!!!!!!!!!!");
 		System.out.println();
 		
+		final DecimalFormat twoDigits = new java.text.DecimalFormat( "##,###" ); 
 		
+		
+		// System.out.println(itemsOfCharacter.size() + "-----------------------------------------> SIZE!");
+		// System.out.println("----------------------------------------------------------->" +itemsOfCharacter.get(0).getItemName());
+		
+		
+		// fighting = true;
+		// System.out.println(" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +fighting +"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		
+		
+		
+		
+
 		
 		for (int i = 0; i < board.length; i++) {
 			switch (i) {
@@ -89,16 +140,40 @@ public final class CompleteBoard {
 				boardWithContent[i] = " |   Life:  +++++|+++++|+++++|+++++ (20) |                                                         |";
 				break;
 			case 5:
-				boardWithContent[i] = " |   Experience:    10.000               |                    ==============#======                |";
+				zahl = player.getExperience();
+				zahlString = "" + zahl;
+				lengthOfNumber = zahlString.length();
+				if (lengthOfNumber > 3) {
+					lengthOfNumber = lengthOfNumber + 1;
+				}
+				boardWithContent[i] = " |   Experience:" + empty.repeat(10-lengthOfNumber) + twoDigits.format(zahl) + "               |                    ==============#======                |";
 				break;
 			case 6:
-				boardWithContent[i] = " |   Gold:           2.000               |                    |               |XXX|                |";
+				zahl = player.getGold();
+				zahlString = "" + zahl;
+				lengthOfNumber = zahlString.length();
+				if (lengthOfNumber > 3) {
+					lengthOfNumber = lengthOfNumber + 1;
+				}
+				boardWithContent[i] = " |   Gold:" + empty.repeat(16-lengthOfNumber) + twoDigits.format(zahl) + "               |                    |               |XXX|                |";
 				break;
 			case 7:
-				boardWithContent[i] = " |   Strength:          16               |                    | & |===============|                |";
+				zahl = player.getStrength();
+				zahlString = "" + zahl;
+				lengthOfNumber = zahlString.length();
+				if (lengthOfNumber > 3) {
+					lengthOfNumber = lengthOfNumber + 1;
+				}
+				boardWithContent[i] = " |   Strength:" + empty.repeat(12-lengthOfNumber) + twoDigits.format(zahl) + "               |                    | & |===============|                |";
 				break;
 			case 8:
-				boardWithContent[i] = " |   Defense:           12               |                    |   |   | S         #                |";
+				zahl = player.getDefense();
+				zahlString = "" + zahl;
+				lengthOfNumber = zahlString.length();
+				if (lengthOfNumber > 3) {
+					lengthOfNumber = lengthOfNumber + 1;
+				}
+				boardWithContent[i] = " |   Defense:" + empty.repeat(13-lengthOfNumber) + twoDigits.format(zahl) + "               |                    | & |===============|                |";
 				break;
 			case 9:
 				boardWithContent[i] = " |=======================================|                    |   |   |   |   |===|                |";
@@ -113,68 +188,126 @@ public final class CompleteBoard {
 				boardWithContent[i] = " |---------------------------------------|                    |           |       |                |";
 				break;
 			case 13:
-				boardWithContent[i] = " |   Weapon:        Langschwert    (10)  |                    |=======|           |                |";
+				zahl = itemsOfCharacter.get(0).getItemStrength();
+				zahlString = "" + zahl;
+				lengthOfNumber = zahlString.length();
+				stringItems = itemsOfCharacter.get(0).getItemName();
+				lengthOfString = stringItems.length();
+				delta = 17 - lengthOfString;
+				boardWithContent[i] = " |   Weapon:" + empty.repeat(8) + stringItems + empty.repeat(delta-lengthOfNumber) + "(" +twoDigits.format(zahl) +")  |                    |=======|           |                |";
+				itemsCounter++;
 				break;
 			case 14:
-				boardWithContent[i] = " |   Weapon (2):    Bogen           (3)  |                    |XXXXXXX| * |       |                |";
+				if (itemsOfCharacter.size() > (itemsCounter)) {
+					zahl = itemsOfCharacter.get(itemsCounter).getItemStrength();
+					zahlString = "" + zahl;
+					lengthOfNumber = zahlString.length();
+					stringItems = itemsOfCharacter.get(itemsCounter).getItemName();
+					lengthOfString = stringItems.length();
+					delta = 17 - lengthOfString;
+					boardWithContent[i] = " |   Weapon 2:" + empty.repeat(6) + stringItems + empty.repeat(delta-lengthOfNumber) + "(" +twoDigits.format(zahl) +")  |                    |XXXXXXX| * |       |                |";
+				} else {
+					boardWithContent[i] = " |                                       |                    |XXXXXXX| * |       |                |";
+				}
+				itemsCounter++;
 				break;
 			case 15:
-				boardWithContent[i] = " |   Heiltrank:     Buntkraut       (3)  |                    ==========#==========                |";
+				if (itemsOfCharacter.size() > (itemsCounter)) {
+					zahl = itemsOfCharacter.get(itemsCounter).getItemStrength();
+					zahlString = "" + zahl;
+					lengthOfNumber = zahlString.length();
+					stringItems = itemsOfCharacter.get(itemsCounter).getItemName();
+					lengthOfString = stringItems.length();
+					delta = 17 - lengthOfString;
+					boardWithContent[i] = " |   Item:" + empty.repeat(10) + stringItems + empty.repeat(delta-lengthOfNumber) + "(" +twoDigits.format(zahl) +")  |                    ==========#==========                |";
+				} else {
+					boardWithContent[i] = " |                                       |                    ==========#==========                |";
+				}
+				itemsCounter++;
 				break;
 			case 16:
-				boardWithContent[i] = " |   Item:          Rusty key            |                                                         |";
+				if (itemsOfCharacter.size() > (itemsCounter)) {
+					zahl = itemsOfCharacter.get(itemsCounter).getItemStrength();
+					zahlString = "" + zahl;
+					lengthOfNumber = zahlString.length();
+					stringItems = itemsOfCharacter.get(itemsCounter).getItemName();
+					lengthOfString = stringItems.length();
+					delta = 17 - lengthOfString;
+					boardWithContent[i] = " |   Item 2:" + empty.repeat(8) + stringItems + empty.repeat(delta-lengthOfNumber) + "(" +twoDigits.format(zahl) +")  |                                                         |";
+				} else {
+					boardWithContent[i] = " |                                       |                                                         |";
+				}
+				itemsCounter++;
 				break;
 			case 17:
-				boardWithContent[i] = " |   Item 2:        Water bottle         |                                                         |";
+				if (itemsOfCharacter.size() > (itemsCounter)) {
+					zahl = itemsOfCharacter.get(itemsCounter).getItemStrength();
+					zahlString = "" + zahl;
+					lengthOfNumber = zahlString.length();
+					stringItems = itemsOfCharacter.get(itemsCounter).getItemName();
+					lengthOfString = stringItems.length();
+					delta = 17 - lengthOfString;
+					boardWithContent[i] = " |   Item 3:" + empty.repeat(8) + stringItems + empty.repeat(delta-lengthOfNumber) + "(" +twoDigits.format(zahl) +")  |                                                         |";
+				} else {
+					boardWithContent[i] = " |                                       |                                                         |";
+				}
+				itemsCounter++;
 				break;
 			case 18:
-				boardWithContent[i] = " |   Item 3:        Water bottle         |                                                         |";
+				if (itemsOfCharacter.size() > (itemsCounter)) {
+					zahl = itemsOfCharacter.get(itemsCounter).getItemStrength();
+					zahlString = "" + zahl;
+					lengthOfNumber = zahlString.length();
+					stringItems = itemsOfCharacter.get(itemsCounter).getItemName();
+					lengthOfString = stringItems.length();
+					delta = 17 - lengthOfString;
+					boardWithContent[i] = " |   Item 4:" + empty.repeat(8) + stringItems + empty.repeat(delta-lengthOfNumber) + "(" +twoDigits.format(zahl) +")  |                                                         |";
+				} else {
+					boardWithContent[i] = " |                                       |                                                         |";
+				}
+				itemsCounter++;
 				break;
 			case 20:
-				boardWithContent[i] = " |   Move:   |      Fight:               |                     Player | Schmunzel-Monster (500)    |";
+				if (fighting) {
+					boardWithContent[i] = " |   Move:   |      Fight:               |                     Player | Schmunzel-Monster (500)    |";
+				} else {
+					boardWithContent[i] = " |   Move:   |                           |                                                         |";
+				}
 				break;
 			case 22:
-				boardWithContent[i] = " |     e     |      k: run               |  Angriff:               11 |   4                        |";
+				if (fighting) {
+					boardWithContent[i] = " |     e     |      k: run               |  Angriff:               11 |   4                        |";
+				} else {
+					boardWithContent[i] = " |     e     |                           |                                                         |";
+				}
 				break;
 			case 23:
-				boardWithContent[i] = " |   s + d   |      h: use healing       |  Verteidigung:           8 |   2                        |";
+				if (fighting) {
+					boardWithContent[i] = " |   s + d   |      h: use healing       |  Verteidigung:           8 |   2                        |";
+				} else {
+					boardWithContent[i] = " |   s + d   |                           |                                                         |";
+				}
 				break;
 			case 24:
-				boardWithContent[i] = " |     x     |                           |  Lebenspunkte (neu):     9 |   0                        |";
+				if (fighting) {
+					boardWithContent[i] = " |     x     |                           |  Lebenspunkte (neu):     9 |   0                        |";
+				} else {
+					boardWithContent[i] = " |     x     |                           |                                                         |";
+				}
 				break;
 			case 26:
-				boardWithContent[i] = " |   ==> Bitte wählen!                   |      --->  Player won and gets xy-experience            |";
+				if (fighting) {
+					boardWithContent[i] = " |   ==> Bitte wählen!                   |      --->  Player won and gets xy-experience            |";
+				} else {
+					boardWithContent[i] = " |   ==> Bitte wählen!                   |                                                         |";
+				}
 				break;
-			
-				//System.out.println(boardWithContent[i]);
-				//System.out.println(board[i]);
-			default: //0, 2, 4,1 9, 21,25, 27  
+			default: // 0, 2, 4, 19, 21, 25, 27  
 				boardWithContent[i] = board[i];
 				break;
 			}
 			System.out.println(boardWithContent[i]);
-			
-			
-			/*
-			if (i == 1) {
-				boardWithContent[i] = " |   " +player.getCharacterName() +"            |    Level     " + player.getCharacterLevel() + "  |     " +dungeonLevel1.getNameOfBoard() +" (Level " + dungeonLevel1.getLevelOfBoard() + ")                              |";
-				System.out.println(boardWithContent[i]);
-				System.out.println(board[i]);
-			} else {
-				boardWithContent[i] = board[i];
-				System.out.println(boardWithContent[i]);
-				//System.out.println(board[i]);
-				
-			}
-			*/
-			
-			
-			
-			
-		
 		}
-		
-		
 		
 	}
 

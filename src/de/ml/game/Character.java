@@ -1,6 +1,7 @@
 package de.ml.game;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 public class Character {
 	
@@ -10,11 +11,16 @@ public class Character {
 	private char characterChar;
 	private int characterLevel;    // depending from experience:
 	private int lifePoints;
+	private int lifePointMax;
 	private int strength;
 	private int defense;
 	private boolean isVisible;
 	private int experience;
 	private Point characterPosition;
+	private int gold;
+	//private ArrayList<Item> itemsOfCaracter;   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	
+	ArrayList<Item> monsterAndItems = new ArrayList<>();
 	
 	
 	//private int speed;
@@ -36,6 +42,9 @@ public class Character {
 		this.isVisible = isVisible;
 		this.experience = experience;
 		this.characterPosition = characterPosition;
+		this.lifePointMax = 10;
+		this.gold = 50;
+		//this.setItemsOfCaracter1(null); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	}
 
 
@@ -140,7 +149,33 @@ public class Character {
 
 	public void setCharacterChar(char characterChar) {
 		this.characterChar = characterChar;
+	}	
+
+
+	public int getLifePointMax() {
+		return lifePointMax;
 	}
+
+
+
+	public void setLifePointMax(int lifePointMax) {
+		this.lifePointMax = lifePointMax;
+	}
+
+
+
+	public int getGold() {
+		return gold;
+	}
+
+
+
+	public void setGold(int gold) {
+		this.gold = gold;
+	}
+	
+	
+	
 
 
 
@@ -154,9 +189,12 @@ public class Character {
 				+ ", Verteidigung: " + this.getDefense() 
 				+ ", Sichtbar? --> " + this.isVisible() 
 				+ ", Erfahrung: " + this.getExperience() 
-				+ ", Punkt: --> " + this.getCharacterPosition(); 
-				
+				+ ", Punkt: --> " + this.getCharacterPosition(); 	
 	}
+
+
+
+	
 	
 	
 	
