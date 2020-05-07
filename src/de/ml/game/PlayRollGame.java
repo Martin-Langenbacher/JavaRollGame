@@ -17,15 +17,22 @@ public class PlayRollGame {
 		BufferedReader br = new BufferedReader(isr);
 		
 		String eingabe;
+		Point startPositionPlayer = new Point(15,11);
+		int dungeonNumber = 0;
 		
 		
 		// erstelle StartDungeon: 
 		DungeonBoard dungeonLevel1 = new StartDungeon();
+		DungeonBoard startDungeon = new StartDungeon(startPositionPlayer);
 		//StartDungeon dungeonLevel1 = new StartDungeon(new String[numberOfLinesForLevel1Dungeon], "StartDungeon", 1);
+		
+		ArrayList<DungeonBoard> dungeons = new ArrayList<>();
+		dungeons.add(startDungeon);
+		dungeons.add(dungeonLevel1);
+		
 		
 		
 		// erstelle Player & Monster: Id, name, 'A', Level, Life, Strength, Defense, visible, experience, Position
-		Point startPositionPlayer = new Point(5,9);
 		Character player = new Character(0, "Player", '*', 1, 10, 2, 2, true, 100, startPositionPlayer);
 		Character monster1 = new Character(1, "Eddi-Schreck", 'A', 1, 5, 2, 1, false, 200, new Point(2,3));
 		
@@ -40,26 +47,26 @@ public class PlayRollGame {
 		
 				
 		// erstelle Item ===>> (int itemId, String itemName, boolean isWeapon, int itemStrength)
-		Item knife = new Item(0, "Knife", true, 2, new Point(0,0));
-		Item smallsword = new Item(1, "Small Sword", true, 5, new Point(1,1));
-		Item potion = new Item(2, "Healing Potion", false, 16, new Point(2,1));
-		Item gold = new Item(3, "Gold", false, 500, new Point(3,1));
-		Item item = new Item(4, "Item Potion", false, 16, new Point(2,1));
-		Item item2 = new Item(5, "Item Potion2", false, 6, new Point(2,1));
+		Item knife = new Item(0, "Knife", true, 2, new Point(10,11));
+		Item smallsword = new Item(1, "Small Sword", true, 5, new Point(11,3));
+		Item potion = new Item(2, "Healing Potion", false, 16, new Point(11,4));
+		Item gold = new Item(3, "Gold", false, 500, new Point(11,5));
+		Item item = new Item(4, "Item Potion", false, 16, new Point(11,6));
+		Item item2 = new Item(5, "Item Potion2", false, 6, new Point(11,7));
 
 		
 		ArrayList<Item> monsterAndItems = new ArrayList<>();
 		monsterAndItems.add(smallsword);
 		monsterAndItems.add(potion);
 		monsterAndItems.add(gold);
-		monsterAndItems.add(new Item (4, "Gold (200)", false, 200, new Point(9,9)));
+		monsterAndItems.add(new Item (4, "Gold", false, 200, new Point(11,6)));
 		
 		// Items of Character:
 		ArrayList<Item> itemsOfCharacter = new ArrayList<>();
 		itemsOfCharacter.add(knife);
 		itemsOfCharacter.add(smallsword);
 		itemsOfCharacter.add(potion);
-		//itemsOfCharacter.add(gold);
+		itemsOfCharacter.add(gold);
 		//itemsOfCharacter.add(item);
 		//itemsOfCharacter.add(item2);
 		// Check with André !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -86,7 +93,8 @@ public class PlayRollGame {
 		//board.printBoard();
 		
 		System.out.println("========================================>>>>>>>>>>> Gesamtes Brett");
-		board.printBoard(dungeonLevel1, player, monsterAndItems, itemsOfCharacter);
+		board.printBoard(dungeons.get(0), player, monsterAndItems, itemsOfCharacter);
+		//board.printBoard(dungeonLevel1, player, monsterAndItems, itemsOfCharacter);
 		System.out.println("========================================>>>>>>>>>>> Ende !!!!!!!!!");
 		
 		
@@ -98,12 +106,21 @@ public class PlayRollGame {
 		boolean gameIsPlaying = true;
 		int round = 0; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<<<================================================= Change with when lost !!!...!
 		
-		MoveOfPlayer.printDungeon(dungeonLevel1, startPositionPlayer, monsterAndItems);
+		MovePlayer.printDungeon(dungeons.get(dungeonNumber), startPositionPlayer, monsterAndItems);
+		//MoveOfPlayer.printDungeon(dungeonLevel1, startPositionPlayer, monsterAndItems);
 		
-		int dungeonXSize = (1+dungeonLevel1.getBoardStrings()[0].length())/2;
-		//System.out.println("X: " + dungeonXSize);
-		int dungeonYSize = dungeonLevel1.getBoardStrings().length;
-		//System.out.println("Y: " + dungeonYSize);
+		
+		//!!!!!!!!!!!!!!!!! Achtung: Check the 1 below
+		
+		
+		
+		int dungeonXSize = (1+dungeons.get(dungeonNumber).getBoardStrings()[0].length())/2;
+		int dungeonYSize = dungeons.get(dungeonNumber).getBoardStrings().length;
+		
+		//int dungeonXSize = (1+dungeonLevel1.getBoardStrings()[0].length())/2;
+		System.out.println("X: " + dungeonXSize);
+		//int dungeonYSize = dungeonLevel1.getBoardStrings().length;
+		System.out.println("Y: " + dungeonYSize);
 				
 		do {
 			round++;
@@ -116,6 +133,8 @@ public class PlayRollGame {
 			while (!inputOk) {
 				System.out.println("Bitte wählen: ");
 				System.out.println("e: hoch | s: links | d: rechts | x: runter");
+				
+				//java.util.Scanner sc = new java.util.Scanner(System.in);
 				
 				switch (new Scanner(System.in).next().toLowerCase()) {
 				case "e":
@@ -143,7 +162,7 @@ public class PlayRollGame {
 				//System.out.println("Point: -->" + stepToThisPoint);
 				
 				// new placement of player - after move is OK!
-				if (MoveOfPlayer.movePossible(dungeonLevel1, stepToThisPoint)) {
+				if (MoveOfPlayer.movePossible(dungeons.get(dungeonNumber), stepToThisPoint)) {
 					inputOk = true;
 					player.setCharacterPosition(stepToThisPoint);
 					
@@ -155,7 +174,8 @@ public class PlayRollGame {
 			
 			
 			// 3) Dungeon mit Bewegung und Dinge zeigen
-			MoveOfPlayer.printDungeon(dungeonLevel1, stepToThisPoint, monsterAndItems);
+			MovePlayer.printDungeon(dungeons.get(dungeonNumber), stepToThisPoint, monsterAndItems);
+			//MoveOfPlayer.printDungeon(dungeonLevel1, stepToThisPoint, monsterAndItems);
 			
 			System.out.println("lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
 			
@@ -165,8 +185,8 @@ public class PlayRollGame {
 			System.out.println(monsterAndItems.get(1).getItemPosition());
 			System.out.println(monsterAndItems.get(2).getItemPosition());
 			System.out.println(monsterAndItems.get(3).getItemPosition());
-			
-			
+			//System.out.println(monsterAndItems.get(4).getItemPosition());
+			//System.out.println(monsterAndItems.get(5).getItemPosition());
 			
 			
 			for (int i = 0; i < monsterAndItems.size(); i++) {

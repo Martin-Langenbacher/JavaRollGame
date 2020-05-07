@@ -21,6 +21,7 @@ public final class CompleteBoard {
 	int itemsCounter;
 	int delta;
 	boolean fighting = false;
+	String lifePoints;
 	
 	
 	
@@ -30,34 +31,34 @@ public final class CompleteBoard {
 	public CompleteBoard() {
 		super();
 		this.board = new String[]{
-				" |=================================================================================================|", 
-				" |   Player            |    Level    01  |     Dungeon Level 1                                     |", 
-				" |=======================================|                                                         |",
-				" |   Life:  +++++|+++++|+++++|+++++ (20) |                                                         |",
-				" |=======================================|                                                         |",
-				" |   Experience:    10.000               |                    ==============#======                |",
-				" |   Gold:           2.000               |                    |               |XXX|                |",
-				" |   Strength:          16               |                    | & |===============|                |", 
-				" |   Defense:           12               |                    |   |   | S         #                |",
-				" |=======================================|                    |   |   |   |   |===|                |",
-				" |                                       |                    #   |   |   |   |   |                |",
-				" |   Tools:         Dungeon key:   Yes   |                    |   | $ |=======|   |                |", 
-				" |---------------------------------------|                    |           |       |                |",
-				" |   Weapon:        Langschwert    (10)  |                    |=======|           |                |",
-				" |   Weapon (2):    Bogen           (3)  |                    |XXXXXXX| * |       |                |", 
-				" |   Heiltrank:     Buntkraut       (3)  |                    ==========#==========                |",
-				" |   Item:          Rusty key            |                                                         |",
-				" |   Item 2:        Water bottle         |                                                         |",
-				" |   Item 3:        Ring            (3)  |                                                         |", 
-				" |=======================================|=========================================================|", 
-				" |   Move:   |      Fight:               |                     Player | Schmunzel-Monster (500)    |", 
-				" |-----------|---------------------------|---------------------------------------------------------|", 
-				" |     e     |      k: run               |  Angriff:               11 |   4                        |", 
-				" |   s + d   |      h: use healing       |  Verteidigung:           8 |   2                        |", 
-				" |     x     |                           |  Lebenspunkte (neu):     9 |   0                        |",
-				" |=================================================================================================|", 
-				" |   ==> Bitte wählen!                   |      --->  Player won and gets xy-experience            |", 
-				" ===================================================================================================",
+				" |================================================================================================|", 
+				" |   Player            |    Level    01  |     Dungeon Level 1                                    |", 
+				" |=======================================|                                                        |",
+				" |   Life:  +++++|+++++|+++++|+++++ (20) |                                                        |",
+				" |=======================================|                                                        |",
+				" |   Experience:    10.000               |                    ==============#======               |",
+				" |   Gold:           2.000               |                    |               |XXX|               |",
+				" |   Strength:          16               |                    | & |===============|               |", 
+				" |   Defense:           12               |                    |   |   | S         #               |",
+				" |=======================================|                    |   |   |   |   |===|               |",
+				" |                                       |                    #   |   |   |   |   |               |",
+				" |   Tools:         Dungeon key:   Yes   |                    |   | $ |=======|   |               |", 
+				" |---------------------------------------|                    |           |       |               |",
+				" |   Weapon:        Langschwert    (10)  |                    |=======|           |               |",
+				" |   Weapon (2):    Bogen           (3)  |                    |XXXXXXX| * |       |               |", 
+				" |   Heiltrank:     Buntkraut       (3)  |                    ==========#==========               |",
+				" |   Item:          Rusty key            |                                                        |",
+				" |   Item 2:        Water bottle         |                                                        |",
+				" |   Item 3:        Ring            (3)  |                                                        |", 
+				" |=======================================|========================================================|", 
+				" |   Move:   |      Fight:               |                     Player | Schmunzel-Monster (500)   |", 
+				" |-----------|---------------------------|--------------------------------------------------------|", 
+				" |     e     |      k: run               |  Angriff:               11 |   4                       |", 
+				" |   s + d   |      h: use healing       |  Verteidigung:           8 |   2                       |", 
+				" |     x     |                           |  Lebenspunkte (neu):     9 |   0                       |",
+				" |================================================================================================|", 
+				" |   ==> Bitte wählen!                   |      --->  Player won and gets xy-experience           |", 
+				" ==================================================================================================",
 		};
 	}
 
@@ -107,7 +108,7 @@ public final class CompleteBoard {
 
 
 
-	public void printBoard(DungeonBoard dungeonLevel1, Character player, ArrayList<Item> monsterAndItems, ArrayList<Item> itemsOfCharacter) {
+	public void printBoard(DungeonBoard dungeon, Character player, ArrayList<Item> monsterAndItems, ArrayList<Item> itemsOfCharacter) {
 		
 		String[] boardWithContent = new String[board.length];
 		itemsCounter = 0;
@@ -127,17 +128,19 @@ public final class CompleteBoard {
 		// System.out.println(" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +fighting +"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		
 		
-		
-		
 
 		
 		for (int i = 0; i < board.length; i++) {
 			switch (i) {
 			case 1:
-				boardWithContent[i] = " |   " +player.getCharacterName() +"            |    Level     " + player.getCharacterLevel() + "  |     " +dungeonLevel1.getNameOfBoard() +" (Level " + dungeonLevel1.getLevelOfBoard() + ")                              |";
+				boardWithContent[i] = " |   " +player.getCharacterName() +"            |    Level     " + player.getCharacterLevel() + "  |     " +dungeon.getNameOfBoard() +" (Level " + dungeon.getLevelOfBoard() + ")                              |";
 				break;
 			case 3:
-				boardWithContent[i] = " |   Life:  +++++|+++++|+++++|+++++ (20) |                                                         |";
+				lifePoints = lifePointString(player.getLifePoints());
+				boardWithContent[i] = " |   Life:  " +lifePoints +" (" +player.getLifePointMax() +") "+dungeon.getBoardStrings()[0];
+				break;
+			case 4:
+				boardWithContent[i] = " |=======================================" +dungeon.getBoardStrings()[1];
 				break;
 			case 5:
 				zahl = player.getExperience();
@@ -146,7 +149,7 @@ public final class CompleteBoard {
 				if (lengthOfNumber > 3) {
 					lengthOfNumber = lengthOfNumber + 1;
 				}
-				boardWithContent[i] = " |   Experience:" + empty.repeat(10-lengthOfNumber) + twoDigits.format(zahl) + "               |                    ==============#======                |";
+				boardWithContent[i] = " |   Experience:" + empty.repeat(10-lengthOfNumber) + twoDigits.format(zahl) + "               " +dungeon.getBoardStrings()[2];
 				break;
 			case 6:
 				zahl = player.getGold();
@@ -155,7 +158,7 @@ public final class CompleteBoard {
 				if (lengthOfNumber > 3) {
 					lengthOfNumber = lengthOfNumber + 1;
 				}
-				boardWithContent[i] = " |   Gold:" + empty.repeat(16-lengthOfNumber) + twoDigits.format(zahl) + "               |                    |               |XXX|                |";
+				boardWithContent[i] = " |   Gold:" + empty.repeat(16-lengthOfNumber) + twoDigits.format(zahl) + "               " +dungeon.getBoardStrings()[3];
 				break;
 			case 7:
 				zahl = player.getStrength();
@@ -164,7 +167,7 @@ public final class CompleteBoard {
 				if (lengthOfNumber > 3) {
 					lengthOfNumber = lengthOfNumber + 1;
 				}
-				boardWithContent[i] = " |   Strength:" + empty.repeat(12-lengthOfNumber) + twoDigits.format(zahl) + "               |                    | & |===============|                |";
+				boardWithContent[i] = " |   Strength:" + empty.repeat(12-lengthOfNumber) + twoDigits.format(zahl) + "               " +dungeon.getBoardStrings()[4];
 				break;
 			case 8:
 				zahl = player.getDefense();
@@ -173,19 +176,19 @@ public final class CompleteBoard {
 				if (lengthOfNumber > 3) {
 					lengthOfNumber = lengthOfNumber + 1;
 				}
-				boardWithContent[i] = " |   Defense:" + empty.repeat(13-lengthOfNumber) + twoDigits.format(zahl) + "               |                    | & |===============|                |";
+				boardWithContent[i] = " |   Defense:" + empty.repeat(13-lengthOfNumber) + twoDigits.format(zahl) + "               "+dungeon.getBoardStrings()[5];
 				break;
 			case 9:
-				boardWithContent[i] = " |=======================================|                    |   |   |   |   |===|                |";
+				boardWithContent[i] = " |=======================================" +dungeon.getBoardStrings()[6];
 				break;
 			case 10:
-				boardWithContent[i] = " |                                       |                    #   |   |   |   |   |                |";
+				boardWithContent[i] = " |                                       " +dungeon.getBoardStrings()[7];
 				break;
 			case 11:
-				boardWithContent[i] = " |   Tools:         Dungeon key:   Yes   |                    |   | $ |=======|   |                |";
+				boardWithContent[i] = " |   Tools:         Dungeon key:   Yes   " +dungeon.getBoardStrings()[8];
 				break;
 			case 12:
-				boardWithContent[i] = " |---------------------------------------|                    |           |       |                |";
+				boardWithContent[i] = " |---------------------------------------" +dungeon.getBoardStrings()[9];
 				break;
 			case 13:
 				zahl = itemsOfCharacter.get(0).getItemStrength();
@@ -194,7 +197,7 @@ public final class CompleteBoard {
 				stringItems = itemsOfCharacter.get(0).getItemName();
 				lengthOfString = stringItems.length();
 				delta = 17 - lengthOfString;
-				boardWithContent[i] = " |   Weapon:" + empty.repeat(8) + stringItems + empty.repeat(delta-lengthOfNumber) + "(" +twoDigits.format(zahl) +")  |                    |=======|           |                |";
+				boardWithContent[i] = " |   Weapon:" + empty.repeat(8) + stringItems + empty.repeat(delta-lengthOfNumber) + "(" +twoDigits.format(zahl) +")  " +dungeon.getBoardStrings()[10];
 				itemsCounter++;
 				break;
 			case 14:
@@ -205,9 +208,9 @@ public final class CompleteBoard {
 					stringItems = itemsOfCharacter.get(itemsCounter).getItemName();
 					lengthOfString = stringItems.length();
 					delta = 17 - lengthOfString;
-					boardWithContent[i] = " |   Weapon 2:" + empty.repeat(6) + stringItems + empty.repeat(delta-lengthOfNumber) + "(" +twoDigits.format(zahl) +")  |                    |XXXXXXX| * |       |                |";
+					boardWithContent[i] = " |   Weapon 2:" + empty.repeat(6) + stringItems + empty.repeat(delta-lengthOfNumber) + "(" +twoDigits.format(zahl) +")  " +dungeon.getBoardStrings()[11];
 				} else {
-					boardWithContent[i] = " |                                       |                    |XXXXXXX| * |       |                |";
+					boardWithContent[i] = " |                                       |                    |XXXXXXX|   |       |                |";
 				}
 				itemsCounter++;
 				break;
@@ -219,7 +222,7 @@ public final class CompleteBoard {
 					stringItems = itemsOfCharacter.get(itemsCounter).getItemName();
 					lengthOfString = stringItems.length();
 					delta = 17 - lengthOfString;
-					boardWithContent[i] = " |   Item:" + empty.repeat(10) + stringItems + empty.repeat(delta-lengthOfNumber) + "(" +twoDigits.format(zahl) +")  |                    ==========#==========                |";
+					boardWithContent[i] = " |   Item:" + empty.repeat(10) + stringItems + empty.repeat(delta-lengthOfNumber) + "(" +twoDigits.format(zahl) +")  " +dungeon.getBoardStrings()[12];
 				} else {
 					boardWithContent[i] = " |                                       |                    ==========#==========                |";
 				}
@@ -233,9 +236,9 @@ public final class CompleteBoard {
 					stringItems = itemsOfCharacter.get(itemsCounter).getItemName();
 					lengthOfString = stringItems.length();
 					delta = 17 - lengthOfString;
-					boardWithContent[i] = " |   Item 2:" + empty.repeat(8) + stringItems + empty.repeat(delta-lengthOfNumber) + "(" +twoDigits.format(zahl) +")  |                                                         |";
+					boardWithContent[i] = " |   Item 2:" + empty.repeat(8) + stringItems + empty.repeat(delta-lengthOfNumber) + "(" +twoDigits.format(zahl) +")  " +dungeon.getBoardStrings()[13];
 				} else {
-					boardWithContent[i] = " |                                       |                                                         |";
+					boardWithContent[i] = " |                                       " +dungeon.getBoardStrings()[13];
 				}
 				itemsCounter++;
 				break;
@@ -247,9 +250,9 @@ public final class CompleteBoard {
 					stringItems = itemsOfCharacter.get(itemsCounter).getItemName();
 					lengthOfString = stringItems.length();
 					delta = 17 - lengthOfString;
-					boardWithContent[i] = " |   Item 3:" + empty.repeat(8) + stringItems + empty.repeat(delta-lengthOfNumber) + "(" +twoDigits.format(zahl) +")  |                                                         |";
+					boardWithContent[i] = " |   Item 3:" + empty.repeat(8) + stringItems + empty.repeat(delta-lengthOfNumber) + "(" +twoDigits.format(zahl) +")  " +dungeon.getBoardStrings()[14];
 				} else {
-					boardWithContent[i] = " |                                       |                                                         |";
+					boardWithContent[i] = " |                                       " +dungeon.getBoardStrings()[14];
 				}
 				itemsCounter++;
 				break;
@@ -309,6 +312,29 @@ public final class CompleteBoard {
 			System.out.println(boardWithContent[i]);
 		}
 		
+	}
+
+
+
+
+	private String lifePointString(int lifes) {
+		String lifePointString = "";
+		for (int i = 1; i < 21; i++) {
+			if (i < lifes+1) {
+				if (i == 6 || i == 11 || i == 16) {
+					lifePointString = lifePointString + "|\u2665";
+				} else {
+					lifePointString = lifePointString + "\u2665";
+				}
+			} else {
+				if (i == 6 || i == 11 || i == 16) {
+					lifePointString = lifePointString + empty.repeat(2);
+				} else {
+					lifePointString = lifePointString + empty;
+				}
+			}
+		}
+		return lifePointString;
 	}
 
 
