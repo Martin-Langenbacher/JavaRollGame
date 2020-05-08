@@ -22,13 +22,13 @@ public class PlayRollGame {
 		
 		
 		// erstelle StartDungeon: 
-		DungeonBoard dungeonLevel1 = new StartDungeon();
+		//DungeonBoard dungeonLevel1 = new StartDungeon();
 		DungeonBoard startDungeon = new StartDungeon(startPositionPlayer);
 		//StartDungeon dungeonLevel1 = new StartDungeon(new String[numberOfLinesForLevel1Dungeon], "StartDungeon", 1);
 		
 		ArrayList<DungeonBoard> dungeons = new ArrayList<>();
 		dungeons.add(startDungeon);
-		dungeons.add(dungeonLevel1);
+		//dungeons.add(dungeonLevel1);
 		
 		
 		
@@ -87,16 +87,21 @@ public class PlayRollGame {
 		// GameIsPlaying
 		//
 		
-		CompleteBoard board = new CompleteBoard(); dungeonLevel1 = new StartDungeon();
+		CompleteBoard board = new CompleteBoard();
+		//dungeonLevel1 = new StartDungeon();
 		System.out.println();
 		//System.out.println();
 		//board.printBoard();
 		
+		/*
 		System.out.println("========================================>>>>>>>>>>> Gesamtes Brett");
+		dungeons.get(0).setBoardField(57,14,'A');
+		
+		System.out.println(player.getCharacterPosition());
 		board.printBoard(dungeons.get(0), player, monsterAndItems, itemsOfCharacter);
 		//board.printBoard(dungeonLevel1, player, monsterAndItems, itemsOfCharacter);
 		System.out.println("========================================>>>>>>>>>>> Ende !!!!!!!!!");
-		
+		*/
 		
 		
 		
@@ -106,21 +111,53 @@ public class PlayRollGame {
 		boolean gameIsPlaying = true;
 		int round = 0; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<<<================================================= Change with when lost !!!...!
 		
-		MovePlayer.printDungeon(dungeons.get(dungeonNumber), startPositionPlayer, monsterAndItems);
+		
+		// Punkte --> (Startpunkt Spieler: Point(15,11);
+		dungeons.get(0).setBoardField(0,0,'A');
+		dungeons.get(0).setBoardField(6,1,'A');
+		dungeons.get(0).setBoardField(51,1,'A');
+		dungeons.get(0).setBoardField(57,0,'A');
+		
+		dungeons.get(0).setBoardField(0,14,'A');
+		dungeons.get(0).setBoardField(6,13,'A');
+		dungeons.get(0).setBoardField(57,0,'A');
+		dungeons.get(0).setBoardField(51,13,'A');
+		
+		dungeons.get(0).setBoardField(21,3,'o');
+		dungeons.get(0).setBoardField(39,3,'o');
+		dungeons.get(0).setBoardField(39,11,'o');
+		dungeons.get(0).setBoardField(21,11,'o');
+		
+		dungeons.get(0).setBoardField(22,9,'1');
+		dungeons.get(0).setBoardField(24,9,'2');
+		dungeons.get(0).setBoardField(26,9,'3');
+		dungeons.get(0).setBoardField(28,9,'4');
+		dungeons.get(0).setBoardField(30,9,'5');
+		dungeons.get(0).setBoardField(32,9,'6');
+		dungeons.get(0).setBoardField(34,9,'7');
+		dungeons.get(0).setBoardField(36,9,'8');
+		dungeons.get(0).setBoardField(38,9,'9');
+		
+		
+		
+		dungeons.get(0).setBoardField((player.getCharacterPosition().x*2), player.getCharacterPosition().y, player.getCharacterChar());
+		
+		
+		
+		board.printBoard(dungeons.get(0), player, monsterAndItems, itemsOfCharacter);
+		//MovePlayer.printDungeon(dungeons.get(dungeonNumber), startPositionPlayer, monsterAndItems);
 		//MoveOfPlayer.printDungeon(dungeonLevel1, startPositionPlayer, monsterAndItems);
 		
 		
 		//!!!!!!!!!!!!!!!!! Achtung: Check the 1 below
-		
-		
-		
 		int dungeonXSize = (1+dungeons.get(dungeonNumber).getBoardStrings()[0].length())/2;
 		int dungeonYSize = dungeons.get(dungeonNumber).getBoardStrings().length;
+		//System.out.println("X: " + dungeonXSize);
+		//System.out.println("Y: " + dungeonYSize);
 		
-		//int dungeonXSize = (1+dungeonLevel1.getBoardStrings()[0].length())/2;
-		System.out.println("X: " + dungeonXSize);
-		//int dungeonYSize = dungeonLevel1.getBoardStrings().length;
-		System.out.println("Y: " + dungeonYSize);
+		
+		//Point stepToThisPoint = new Point(0,0);
+		
 				
 		do {
 			round++;
@@ -129,10 +166,12 @@ public class PlayRollGame {
 			boolean inputOk = false;
 			Point stepToThisPoint = new Point(0,0);
 			
+			dungeons.get(0).setBoardField((player.getCharacterPosition().x*2), player.getCharacterPosition().y, ' ');
+			
 			
 			while (!inputOk) {
-				System.out.println("Bitte wählen: ");
-				System.out.println("e: hoch | s: links | d: rechts | x: runter");
+				// System.out.println("Bitte wählen: ");
+				// System.out.println("e: hoch | s: links | d: rechts | x: runter");
 				
 				//java.util.Scanner sc = new java.util.Scanner(System.in);
 				
@@ -162,10 +201,10 @@ public class PlayRollGame {
 				//System.out.println("Point: -->" + stepToThisPoint);
 				
 				// new placement of player - after move is OK!
-				if (MoveOfPlayer.movePossible(dungeons.get(dungeonNumber), stepToThisPoint)) {
+				if (MovePlayer.movePossible(dungeons.get(dungeonNumber), stepToThisPoint)) {
 					inputOk = true;
 					player.setCharacterPosition(stepToThisPoint);
-					
+					dungeons.get(0).setBoardField((player.getCharacterPosition().x*2), player.getCharacterPosition().y, player.getCharacterChar());
 				} else {
 					continue;
 				}
@@ -174,17 +213,27 @@ public class PlayRollGame {
 			
 			
 			// 3) Dungeon mit Bewegung und Dinge zeigen
-			MovePlayer.printDungeon(dungeons.get(dungeonNumber), stepToThisPoint, monsterAndItems);
+			board.printBoard(dungeons.get(0), player, monsterAndItems, itemsOfCharacter);
+			//MovePlayer.printDungeon(dungeons.get(dungeonNumber), stepToThisPoint, monsterAndItems);
 			//MoveOfPlayer.printDungeon(dungeonLevel1, stepToThisPoint, monsterAndItems);
 			
-			System.out.println("lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
+			
 			
 			// 5) Erreignis: Ja / Nein?
+			
+			
+			
+			
+			
+			/*
 			System.out.println(player.getCharacterPosition());
 			System.out.println(monsterAndItems.get(0).getItemPosition());
 			System.out.println(monsterAndItems.get(1).getItemPosition());
 			System.out.println(monsterAndItems.get(2).getItemPosition());
 			System.out.println(monsterAndItems.get(3).getItemPosition());
+			*/
+			
+			
 			//System.out.println(monsterAndItems.get(4).getItemPosition());
 			//System.out.println(monsterAndItems.get(5).getItemPosition());
 			

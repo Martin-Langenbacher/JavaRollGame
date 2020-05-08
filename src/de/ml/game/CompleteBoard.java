@@ -41,7 +41,7 @@ public final class CompleteBoard {
 				" |   Strength:          16               |                    | & |===============|               |", 
 				" |   Defense:           12               |                    |   |   | S         #               |",
 				" |=======================================|                    |   |   |   |   |===|               |",
-				" |                                       |                    #   |   |   |   |   |               |",
+				" |                                       |                    #   |   |   |       |               |",
 				" |   Tools:         Dungeon key:   Yes   |                    |   | $ |=======|   |               |", 
 				" |---------------------------------------|                    |           |       |               |",
 				" |   Weapon:        Langschwert    (10)  |                    |=======|           |               |",
@@ -85,11 +85,46 @@ public final class CompleteBoard {
 	String.substring(int beginn, int ende) gibt einen Teilstring zurück.
 	String.indexOf(String str, int von) gibt die Position des ersten Vorkommens eines Strings ab der spezifizierten Position zurück.
 
-
+==================================================================    
 
 	String str = "abc";
 	String repeated = str.repeat(3);
 	repeated.equals("abcabcabc");
+	
+================================================================== 
+	
+	StringBuilder sbf = new StringBuilder("We are geeks  "); 
+	System.out.println(sbf); 
+	
+	// Char array 
+	char[] astr = new char[] { 'G', 'E', 'E', 'k', 'S' };
+	
+	// Appends string representation of char array to this String Builder
+	sbf.append(astr); 
+    System.out.println("Result after" + " appending = " + sbf); 
+    
+---------------------------------------------------------------------------------------------------------
+===>> https://docs.oracle.com/javase/7/docs/api/java/lang/StringBuilder.html
+---------------------------------------------------------------------------------------------------------
+    StringBuffer(), StringBuilder() Legt ein neues Objekt an, das die leere Zeichenreihe enthält und Platz für (zunächst) bis zu 16 Zeichen bietet. Bei Bedarf wird automatisch Platz für weitere Zeichen bereitgestellt.
+
+    StringBuffer( int length ), StringBuilder( int length ) Wie oben, jedoch reicht die anfängliche Kapazität des Objekts für die angegebene Anzahl an Zeichen. Optimalerweise ist die Größe so zu setzen, dass sie der Endgröße der dynamischen Zeichenfolge nahekommt.
+
+    StringBuffer( String str ), StringBuilder( String str ) Baut ein Objekt, das eine Kopie der Zeichen aus str enthält. Zusätzlich wird bereits Platz für 16 weitere Zeichen eingeplant.
+
+    StringBuffer( CharSequence seq ), StringBuilder( CharSequence seq ) Erzeugt ein neues Objekt aus einer CharSequence. Damit können auch die Zeichenfolgen anderer StringBuffer- und StringBuilder-Objekte Basis dieses Objekts werden.
+
+
+
+    public static String join( Object... strings {
+        StringBuilder result = new StringBuilder();
+        for ( Object string : strings result.append( string );
+        
+        return result.toString();
+        }
+    
+    --> String toString() Erzeugt aus der aktuellen Zeichenkette ein String-Objekt.
+======================================================================================== 
 				
 	*/
 	
@@ -133,7 +168,7 @@ public final class CompleteBoard {
 		for (int i = 0; i < board.length; i++) {
 			switch (i) {
 			case 1:
-				boardWithContent[i] = " |   " +player.getCharacterName() +"            |    Level     " + player.getCharacterLevel() + "  |     " +dungeon.getNameOfBoard() +" (Level " + dungeon.getLevelOfBoard() + ")                              |";
+				boardWithContent[i] = " |   " +player.getCharacterName() +"            |    Level     " + player.getCharacterLevel() + "  |     " +dungeon.getNameOfBoard() +" (Level " + dungeon.getLevelOfBoard() + ")                             |";
 				break;
 			case 3:
 				lifePoints = lifePointString(player.getLifePoints());
@@ -266,43 +301,43 @@ public final class CompleteBoard {
 					delta = 17 - lengthOfString;
 					boardWithContent[i] = " |   Item 4:" + empty.repeat(8) + stringItems + empty.repeat(delta-lengthOfNumber) + "(" +twoDigits.format(zahl) +")  |                                                         |";
 				} else {
-					boardWithContent[i] = " |                                       |                                                         |";
+					boardWithContent[i] = " |                                       |                                                        |";
 				}
 				itemsCounter++;
 				break;
 			case 20:
 				if (fighting) {
-					boardWithContent[i] = " |   Move:   |      Fight:               |                     Player | Schmunzel-Monster (500)    |";
+					boardWithContent[i] = " |   Move:   |      Fight:               |                     Player | Schmunzel-Monster (500)   |";
 				} else {
-					boardWithContent[i] = " |   Move:   |                           |                                                         |";
+					boardWithContent[i] = " |   Move:   |                           |                                                        |";
 				}
 				break;
 			case 22:
 				if (fighting) {
-					boardWithContent[i] = " |     e     |      k: run               |  Angriff:               11 |   4                        |";
+					boardWithContent[i] = " |     e     |      k: run               |  Angriff:               11 |   4                       |";
 				} else {
-					boardWithContent[i] = " |     e     |                           |                                                         |";
+					boardWithContent[i] = " |     e     |                           |                                                        |";
 				}
 				break;
 			case 23:
 				if (fighting) {
-					boardWithContent[i] = " |   s + d   |      h: use healing       |  Verteidigung:           8 |   2                        |";
+					boardWithContent[i] = " |   s + d   |      h: use healing       |  Verteidigung:           8 |   2                       |";
 				} else {
-					boardWithContent[i] = " |   s + d   |                           |                                                         |";
+					boardWithContent[i] = " |   s + d   |                           |                                                        |";
 				}
 				break;
 			case 24:
 				if (fighting) {
-					boardWithContent[i] = " |     x     |                           |  Lebenspunkte (neu):     9 |   0                        |";
+					boardWithContent[i] = " |     x     |                           |  Lebenspunkte (neu):     9 |   0                       |";
 				} else {
-					boardWithContent[i] = " |     x     |                           |                                                         |";
+					boardWithContent[i] = " |     x     |                           |                                                        |";
 				}
 				break;
 			case 26:
 				if (fighting) {
-					boardWithContent[i] = " |   ==> Bitte wählen!                   |      --->  Player won and gets xy-experience            |";
+					boardWithContent[i] = " |   ==> Bitte wählen!                   |      --->  Player won and gets xy-experience           |";
 				} else {
-					boardWithContent[i] = " |   ==> Bitte wählen!                   |                                                         |";
+					boardWithContent[i] = " |   ==> Bitte wählen!                   |                                                        |";
 				}
 				break;
 			default: // 0, 2, 4, 19, 21, 25, 27  

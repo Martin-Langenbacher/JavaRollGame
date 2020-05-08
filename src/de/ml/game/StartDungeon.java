@@ -14,7 +14,7 @@ public class StartDungeon extends DungeonBoard{
 				"|    |              |   |===============|           |    |",
 				"|    |              |   |   |           #           |    |",
 				"|    |              |   |   |   |   |===|           |    |",
-				"|    |              #   |   |   |   |   |           |    |",
+				"|    |              #   |   |   |       |           |    |",
 				"|    |              |   |   |=======|   |           |    |",
 				"|    |              |           |       |           |    |",
 				"|    |              |=======|           |           |    |",
@@ -27,7 +27,7 @@ public class StartDungeon extends DungeonBoard{
 	
 	
 	
-	
+	/*
 	public StartDungeon() {
 		super(new String[] {
 				"==============#======",
@@ -44,7 +44,7 @@ public class StartDungeon extends DungeonBoard{
 		}, "StartDungeon", 1);
 	}
 	
-	
+	*/
 	
 }
 

@@ -69,6 +69,11 @@ public class MovePlayer {
 			
 			
 			// 3: Strings mit Player hinzufügen
+			dungeon.setBoardField(57,14,'A');
+			dungeon.setBoardField(30, 11, '*');
+			
+			/*
+			
 			for (int i = 0; i < dungeonSize; i++) {
 				if (i == stepToThisPoint.y) {
 					index = (2 * stepToThisPoint.x); // Achtung !!!
@@ -76,8 +81,59 @@ public class MovePlayer {
 					StringBuilder myString = new StringBuilder(stringToPrint[i]);
 					myString.setCharAt(index, ch);
 					stringToPrint[i] = myString.toString(); 
+					//dungeon.setBoardString(i, stringToPrint[i]);
+					dungeon.setBoardField(57,14,'A');
 				}
 			}
+			
+			
+			/*
+			
+			
+			public void setBoardField(int x, int y, char value) {
+		
+		StringBuilder myString = new StringBuilder(this.boardStrings[y]);
+		myString.setCharAt(x, value);
+		this.boardStrings[y] = myString.toString(); 
+	}
+			
+			
+			
+			
+			for (int i = 0; i < dungeonSize; i++) {
+			//for (int i = 0; i < 177; i++) {
+				System.out.println(i + " | " + dungeonSize);
+				dungeon.setBoardString(14, "|    |              |=======|           |     ml    |    |");
+			} 
+			
+			
+			
+			
+			/*
+			for (int i = 0; i < dungeonSize; i++) {
+				dungeon.setBoardString(i, "Bla");
+				
+			}
+			
+			
+			
+			
+			
+			
+			
+			/*
+			
+	public void setBoardString(int i, String zeile) {
+		this.boardStrings[i] = zeile;
+		
+	}
+			*/
+			
+			
+			
+			
+			
+			
 			
 			
 			

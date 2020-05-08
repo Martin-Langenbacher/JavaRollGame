@@ -10,6 +10,8 @@ public class MoveOfPlayer {
 		
 		String checkThisString = dungeonLevel1.getBoardStrings()[stepToThisPoint.y];
 		int index = (2 * stepToThisPoint.x);
+		
+		
 		String ch = checkThisString.substring(index, index+1);		
 		
 		if (ch.equals("|") || ch.equals("=")) {

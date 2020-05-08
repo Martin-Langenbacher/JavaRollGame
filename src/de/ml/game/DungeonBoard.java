@@ -29,7 +29,7 @@ public abstract class DungeonBoard {
 	
 	// constructor
 	public DungeonBoard(String[] boardStrings, String nameOfBoard, int levelOfBoard) {
-		this.boardStrings = boardStrings;
+		this.boardStrings = boardStrings.clone();
 		this.nameOfBoard = nameOfBoard;
 		this.levelOfBoard = levelOfBoard;
 		numberOfBoards++;
@@ -45,19 +45,22 @@ public abstract class DungeonBoard {
 	}
 
 
+	/*
 	public static void setNumberOfBoards(int numberOfBoards) {
 		DungeonBoard.numberOfBoards = numberOfBoards;
 	}
+	*/
 
 
 	public int getLevelOfBoard() {
 		return levelOfBoard;
 	}
 
-
+	/*
 	public void setLevelOfBoard(int levelOfBoard) {
 		this.levelOfBoard = levelOfBoard;
 	}
+	*/
 
 
 	public String getNameOfBoard() {
@@ -69,21 +72,51 @@ public abstract class DungeonBoard {
 		this.nameOfBoard = nameOfBoard;
 	}
 
+	
+	public String getBoardString(int i) {
+		return boardStrings[i];
+		
+	}
 
-
-
+	
 	public String[] getBoardStrings() {
 		return boardStrings;
 	}
+	
 
 
-
-
+	public void setBoardString(int i, String zeile) {
+		this.boardStrings[i] = zeile;
+		
+	}
+	
+	/*
 	public void setBoardStrings(String[] boardStrings) {
 		this.boardStrings = boardStrings;
 	}
+	*/
 	
 	
+	public void setBoardField(int x, int y, char value) {
+		
+		StringBuilder myString = new StringBuilder(this.boardStrings[y]);
+		myString.setCharAt(x, value);
+		this.boardStrings[y] = myString.toString(); 
+	}
+	//StringBuilder sbf = new StringBuilder("We are geeks  "); 
+	
+	
+	
+	/*
+	
+	
+	// 3: Strings mit Player hinzufügen
+		for (int i = 0; i < dungeonSize; i++) {
+			if (i == stepToThisPoint.y) {
+				index = (2 * stepToThisPoint.x);
+				ch = '*';
+				
+	*/
 	
 }
 
