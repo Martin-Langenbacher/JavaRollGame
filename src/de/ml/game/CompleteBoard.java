@@ -245,7 +245,7 @@ public final class CompleteBoard {
 					delta = 17 - lengthOfString;
 					boardWithContent[i] = " |   Weapon 2:" + empty.repeat(6) + stringItems + empty.repeat(delta-lengthOfNumber) + "(" +twoDigits.format(zahl) +")  " +dungeon.getBoardStrings()[11];
 				} else {
-					boardWithContent[i] = " |                                       |                    |XXXXXXX|   |       |                |";
+					boardWithContent[i] = " |                                       |    |              |XXXXXXX|   |       |                |";
 				}
 				itemsCounter++;
 				break;
@@ -259,7 +259,7 @@ public final class CompleteBoard {
 					delta = 17 - lengthOfString;
 					boardWithContent[i] = " |   Item:" + empty.repeat(10) + stringItems + empty.repeat(delta-lengthOfNumber) + "(" +twoDigits.format(zahl) +")  " +dungeon.getBoardStrings()[12];
 				} else {
-					boardWithContent[i] = " |                                       |                    ==========#==========                |";
+					boardWithContent[i] = " |                                       |    |              ==========#==========                |";
 				}
 				itemsCounter++;
 				break;

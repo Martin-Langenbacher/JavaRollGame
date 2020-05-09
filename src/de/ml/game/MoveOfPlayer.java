@@ -5,6 +5,10 @@ import java.util.ArrayList;
 
 public class MoveOfPlayer {
 	
+	
+	/*
+	
+	
 	// movePossible
 	public static boolean movePossible(DungeonBoard dungeonLevel1, Point stepToThisPoint) {
 		
@@ -75,7 +79,12 @@ public class MoveOfPlayer {
 		for (int i = 0; i < dungeonSize; i++) {
 			System.out.println(stringToPrint[i]); 
 		}
-	}			
+	}	
+	
+			
+			*/
+			
+			
 }
 
 
