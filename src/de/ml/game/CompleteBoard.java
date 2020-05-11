@@ -13,11 +13,14 @@ public final class CompleteBoard {
 	
 	private String[] board;
 	int zahl;
+	int zahl2;
 	String stringItems;
 	int lengthOfNumber;
 	int lengthOfString;
+	int lengthOfZahl;
 	String empty = " ";
 	String zahlString;
+	String zahlString2;
 	int itemsCounter;
 	int delta;
 	boolean fighting = false;
@@ -25,9 +28,22 @@ public final class CompleteBoard {
 	
 	
 	
-	
-	
-	
+//==============================================================================================	
+	// getter & setter
+	public boolean isFighting() {
+		return fighting;
+	}
+
+
+	public void setFighting(boolean fighting) {
+		this.fighting = fighting;
+	}
+
+//==============================================================================================
+
+
+
+
 	public CompleteBoard() {
 		super();
 		this.board = new String[]{
@@ -143,7 +159,7 @@ public final class CompleteBoard {
 
 
 
-	public void printBoard(DungeonBoard dungeon, Character player, ArrayList<Item> monsterAndItems, ArrayList<Item> itemsOfCharacter) {
+	public void printBoard(DungeonBoard dungeon, Character player, ArrayList<Item> monsterAndItems, ArrayList<Item> itemsOfCharacter, Character monster) {
 		
 		String[] boardWithContent = new String[board.length];
 		itemsCounter = 0;
@@ -306,29 +322,61 @@ public final class CompleteBoard {
 				itemsCounter++;
 				break;
 			case 20:
-				if (fighting) {
-					boardWithContent[i] = " |   Move:   |      Fight:               |                     Player | Schmunzel-Monster (500)   |";
+				if (fighting) { 
+					zahl = monster.getCharacterName().length();
+					boardWithContent[i] = " |   Move:   |      Fight:               |                     " + player.getCharacterName() + " | " +monster.getCharacterName() + " (" +monster.getExperience() +")" + empty.repeat(20-zahl) + "|";			
 				} else {
 					boardWithContent[i] = " |   Move:   |                           |                                                        |";
 				}
 				break;
 			case 22:
 				if (fighting) {
-					boardWithContent[i] = " |     e     |      k: run               |  Angriff:               11 |   4                       |";
+					zahl = player.getStrength();
+					zahlString = "" + zahl;
+					lengthOfString = zahlString.length();
+					
+					zahl2 = monster.getStrength();
+					zahlString2 = "" + zahl2;
+					lengthOfZahl = zahlString2.length();
+					
+					boardWithContent[i] = " |     e     |      k: run               |  Angriff:" +empty.repeat(17-lengthOfString) + zahl + " |" +empty.repeat(4-lengthOfZahl) +zahl2 + empty.repeat(23) + "|";
+					
 				} else {
 					boardWithContent[i] = " |     e     |                           |                                                        |";
 				}
 				break;
 			case 23:
 				if (fighting) {
-					boardWithContent[i] = " |   s + d   |      h: use healing       |  Verteidigung:           8 |   2                       |";
+					zahl = player.getDefense();
+					zahlString = "" + zahl;
+					lengthOfString = zahlString.length();
+					
+					zahl2 = monster.getDefense();
+					zahlString2 = "" + zahl2;
+					lengthOfZahl = zahlString2.length();
+					
+					boardWithContent[i] = " |   s + d   |      h: use healing       |  Verteidigung:" +empty.repeat(12-lengthOfString) + zahl + " |" +empty.repeat(4-lengthOfZahl) +zahl2 + empty.repeat(23) + "|";
+					
 				} else {
 					boardWithContent[i] = " |   s + d   |                           |                                                        |";
 				}
 				break;
 			case 24:
 				if (fighting) {
-					boardWithContent[i] = " |     x     |                           |  Lebenspunkte (neu):     9 |   0                       |";
+					zahl = player.getDefense();
+					// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+					zahl = 9;
+					zahlString = "" + zahl;
+					lengthOfString = zahlString.length();
+					
+					zahl2 = monster.getDefense();
+					// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+					zahl2 = 0;
+					zahlString2 = "" + zahl2;
+					lengthOfZahl = zahlString2.length();
+					
+					boardWithContent[i] = " |     x     |                           |  Lebenspunkte (neu):" +empty.repeat(6-lengthOfString) + zahl + " |" +empty.repeat(4-lengthOfZahl) +zahl2 + empty.repeat(23) + "|";
+					
 				} else {
 					boardWithContent[i] = " |     x     |                           |                                                        |";
 				}
@@ -373,6 +421,110 @@ public final class CompleteBoard {
 	}
 
 
+	
+
+
+	public void fightingWithMonster(CompleteBoard completeBoard, Character player, Character monster) {
+		
+		String playerName = player.getCharacterName();
+		String monsterName = monster.getCharacterName();
+		int playerDiceResult;
+		int monsterDiceResult;
+		int playerFightValue;
+		int monsterFightValue;
+		int result;
+		
+		
+		while (player.getLifePoints() > 0 && monster.getLifePoints() > 0) {
+			
+			
+			playerDiceResult = (int) ((Math.random() * 6) + 1);
+			monsterDiceResult = (int) ((Math.random() * 6) + 1);
+			
+			playerFightValue = player.getStrength() + playerDiceResult;   // + Waffen-Wert...!
+			monsterFightValue = monster.getStrength() + monsterDiceResult;
+			
+			result = playerFightValue - monsterFightValue;
+			
+			
+			// Würfel + Stärke + Waffe = Kampfwert
+			
+			// --> Spiel: StärkeP. + WürfelP. == Kampfwert
+			
+			// P: 2 + 2 +5 ==> 9 
+			// M: 6 +2 ==> 8
+			// Pasch ist besser und wird addiert!
+			 
+			// P-M = 9-8 = 1  (Gewinner)
+			// M-P = 8-9 = -1 (
+			
+			System.out.println();
+			System.out.println("Player Dice Result: " +playerDiceResult);
+			System.out.println("Player Fight Value: " +playerFightValue);
+			
+			System.out.println("Monster Dice Result: " +monsterDiceResult);
+			System.out.println("Monster Fight Value: " +monsterFightValue);
+			
+			
+
+			
+			// Differenz der Werte = Ergebnis: Dieses Ergebnis wird dem Verlierer den lebenspunkten abgezogen...
+			System.out.println("fight result: " + result);
+			
+			if (result > 0) {
+				System.out.println("Player won");
+				monster.setLifePoints(monster.getLifePoints()-result);
+				
+				
+			} else if (result < 0) {
+				System.out.println("Player lost");
+				player.setLifePoints(player.getLifePoints()+result);
+			} else {
+				System.out.println("Unentschieden");
+			}
+			
+			
+			
+			
+			
+			System.out.println("Player-Life-Points: " +player.getLifePoints());
+			System.out.println("Monster-Life-Points: " + monster.getLifePoints());
+			
+			
+			
+			
+		
+			
+		}
+		
+		System.out.println("Einer hat Gewonnen: Was müssen wir machen?");
+		
+		System.out.println("Player-Life-Points: " +player.getLifePoints());
+		System.out.println("Monster-Life-Points: " + monster.getLifePoints());
+	
+		
+		
+		
+		
+		/*
+		
+		" |=======================================|========================================================|", 
+				" |   Move:   |      Fight:               |                     Player | Schmunzel-Monster (500)   |", 
+				" |-----------|---------------------------|--------------------------------------------------------|", 
+				" |     e     |      k: run               |  Angriff:               11 |   4                       |", 
+				" |   s + d   |      h: use healing       |  Verteidigung:           8 |   2                       |", 
+				" |     x     |                           |  Lebenspunkte (neu):     9 |   0                       |",
+				" |================================================================================================|", 
+				" |   ==> Bitte wählen!                   |      --->  Player won and gets xy-experience           |", 
+				" ==================================================================================================",
+		
+		
+		
+		*/
+		
+		
+	}
+		
 	
 	
 	

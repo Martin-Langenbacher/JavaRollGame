@@ -38,7 +38,7 @@ public class PlayRollGame {
 		
 		// erstelle Player & Monster: Id, name, 'A', Level, Life, Strength, Defense, visible, experience, Position
 		Character player = new Character(0, "Player", '*', 1, 10, 2, 2, true, 100, startPositionPlayer);
-		Character monster1 = new Character(1, "Eddi-Schreck", 'A', 1, 5, 2, 1, false, 200, new Point(13,5));
+		Character monster1 = new Character(1, "Eddi-Schreck2", 'A', 1, 5, 2, 1, false, 200, new Point(13,5));
 		
 		
 		/*
@@ -141,7 +141,7 @@ public class PlayRollGame {
 		for (int i = 0; i < monsterAndItems.size(); i++) {
 			dungeons.get(dungeonNumber).setBoardField((smallsword.getItemPosition().x*2), smallsword.getItemPosition().y, '?');
 			
-			System.out.println(i);
+			System.out.println("i: monsterAndItems: " +i);
 		}
 		
 		//dungeons.get(dungeonNumber).setBoardField(23,4,'O');
@@ -175,7 +175,7 @@ public class PlayRollGame {
 		
 		
 		
-		board.printBoard(dungeons.get(dungeonNumber), player, monsterAndItems, itemsOfCharacter);
+		board.printBoard(dungeons.get(dungeonNumber), player, monsterAndItems, itemsOfCharacter, monster1);
 		//MovePlayer.printDungeon(dungeons.get(dungeonNumber), startPositionPlayer, monsterAndItems);
 		//MoveOfPlayer.printDungeon(dungeonLevel1, startPositionPlayer, monsterAndItems);
 		
@@ -295,7 +295,7 @@ public class PlayRollGame {
 			
 			
 			// 3) Dungeon mit Bewegung und Dinge zeigen
-			board.printBoard(dungeons.get(dungeonNumber), player, monsterAndItems, itemsOfCharacter);
+			board.printBoard(dungeons.get(dungeonNumber), player, monsterAndItems, itemsOfCharacter, monster1);
 			//MovePlayer.printDungeon(dungeons.get(dungeonNumber), stepToThisPoint, monsterAndItems);
 			//MoveOfPlayer.printDungeon(dungeonLevel1, stepToThisPoint, monsterAndItems);
 			
@@ -334,18 +334,24 @@ public class PlayRollGame {
 			
 			// 6a) Mache Erreignis (z.B. Kampf)
 			if (player.getCharacterPosition().equals(monster1.getCharacterPosition())) {
-				System.out.println("Hier ist ein Monster");
+				System.out.println("Start Kampf.... -----> Hier ist ein Monster");
+				
+				board.setFighting(true);
+				board.fightingWithMonster(board, player, monster1);
+				board.printBoard(dungeons.get(dungeonNumber), player, monsterAndItems, itemsOfCharacter, monster1);
+				board.setFighting(false);
+				
+				System.out.println("Ende Kampf   UND weiter...!");
+				
+				
 			}
+			
+			
+			
+			
 			
 			// 6b) Tür
 			
-			//System.out.println(dungeons.get(dungeonNumber).getBoardString(player.getCharacterPosition().y).charAt(player.getCharacterPosition().x));
-			
-			System.out.println(dungeons.get(dungeonNumber).getBoardField(player.getCharacterPosition().x*2, player.getCharacterPosition().y));
-			
-			
-			
-	
 			if (isDoor) {
 				System.out.println("Hier ist eine Tür !!!!!!!!!!!");
 			}
