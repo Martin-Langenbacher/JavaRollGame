@@ -14,7 +14,7 @@ public class PlayRollGame {
 	static Point oldPoint;
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		
 		InputStreamReader isr = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(isr);
@@ -38,7 +38,7 @@ public class PlayRollGame {
 		
 		// erstelle Player & Monster: Id, name, 'A', Level, Life, Strength, Defense, visible, experience, Position
 		Character player = new Character(0, "Player", '*', 1, 10, 2, 2, true, 100, startPositionPlayer);
-		Character monster1 = new Character(1, "Eddi-Schreck2", 'A', 1, 5, 2, 1, false, 200, new Point(13,5));
+		Character monster1 = new Character(1, "Eddi-Schreck", 'A', 1, 5, 2, 1, false, 200, new Point(13,5));
 		
 		
 		/*
@@ -92,18 +92,14 @@ public class PlayRollGame {
 		//
 		
 		CompleteBoard board = new CompleteBoard();
-		//dungeonLevel1 = new StartDungeon();
+	
 		System.out.println();
-		//System.out.println();
-		//board.printBoard();
-		
 		
 		
 		System.out.println();
 		System.out.println("========================================>>>>>>>>>>> GameStarts <<<<<<<<<<=================================");
 		
 		boolean gameIsPlaying = true;
-		int round = 0; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<<<================================================= Change with when lost !!!...!
 		
 		
 		// Punkte --> (Startpunkt Spieler: Point(15,11);
@@ -192,7 +188,6 @@ public class PlayRollGame {
 		
 				
 		do {
-			round++;
 			
 			// 1) Eingabe korrekt?   UND   2) Move possible?
 			boolean inputOk = false;
@@ -337,11 +332,52 @@ public class PlayRollGame {
 				System.out.println("Start Kampf.... -----> Hier ist ein Monster");
 				
 				board.setFighting(true);
-				board.fightingWithMonster(board, player, monster1);
-				board.printBoard(dungeons.get(dungeonNumber), player, monsterAndItems, itemsOfCharacter, monster1);
-				board.setFighting(false);
+				do {
+					
+					board.fightingWithMonster(board, player, monster1);
+					board.printBoard(dungeons.get(dungeonNumber), player, monsterAndItems, itemsOfCharacter, monster1);
+					
+					if (player.getLifePoints() < 1 || monster1.getLifePoints() < 1) {
+						board.setFighting(false);
+					}
+					
+					java.util.Scanner sc = new java.util.Scanner(System.in);
+					
+					switch (sc.next()) {
+					case "q":
+						System.out.println("Q gedrückt");
+						break;
+					default:
+						System.out.println("nicht Q gedrückt");
+						break;
+					}
+					
+					
+					
+					
+					
+					
+					
+				} while (board.isFighting());
+				
+				
+				
+				
+				
+				
+				// Game Over?
+				if (player.getLifePoints() < 1) {
+					System.out.println("Game Over");
+					gameIsPlaying = false;
+					gameOver();
+				}
+				
 				
 				System.out.println("Ende Kampf   UND weiter...!");
+				board.printBoard(dungeons.get(dungeonNumber), player, monsterAndItems, itemsOfCharacter, monster1);
+				
+				
+				
 				
 				
 			}
@@ -366,29 +402,41 @@ public class PlayRollGame {
 			
 			
 			
-			if (round > 100) {
-				gameIsPlaying = false;
-			}
+			
 		} while (gameIsPlaying);
 		
 		
-		System.out.println("========================================>>>>>>>>>>>  End of Game  <<<<<<<<<<==============================");
-		
-		
-		
-	
-	
 		
 		
 		
 		
 		
-		
-		
-		
+		gameOver();	
 		
 		
 	}
+
+	
+	
+	
+	
+
+	private static void gameOver() throws InterruptedException {
+		
+		// slowing down time...
+		Thread.sleep(1000, 0);
+		
+		System.out.println("========================================>>>>>>>>>>>  End of Game  <<<<<<<<<<==============================");
+		
+		// beendet das Spiel (springt heraus!
+		System.exit(0);
+		
+		
+	}
+	
+	
+	
+	
 
 }
 

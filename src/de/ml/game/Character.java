@@ -18,6 +18,8 @@ public class Character {
 	private int experience;
 	private Point characterPosition;
 	private int gold;
+	private int diceResult;
+	private int fightValue;
 	//private ArrayList<Item> itemsOfCaracter;   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	
 	ArrayList<Item> monsterAndItems = new ArrayList<>();
@@ -44,6 +46,8 @@ public class Character {
 		this.characterPosition = characterPosition;
 		this.lifePointMax = 10;
 		this.gold = 50;
+		this.diceResult = 0;
+		this.fightValue = 0;
 		//this.setItemsOfCaracter1(null); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	}
 
@@ -174,8 +178,29 @@ public class Character {
 		this.gold = gold;
 	}
 	
-	
-	
+
+
+	public int getDiceResult() {
+		return diceResult;
+	}
+
+
+
+	public void setDiceResult(int diceResult) {
+		this.diceResult = diceResult;
+	}
+
+
+
+	public int getFightValue() {
+		return fightValue;
+	}
+
+
+
+	public void setFightValue(int fightValue) {
+		this.fightValue = fightValue;
+	}
 
 
 
