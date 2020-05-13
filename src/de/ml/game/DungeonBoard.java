@@ -52,7 +52,6 @@ public abstract class DungeonBoard {
 
 	public void setBoardString(int i, String zeile) {
 		this.boardStrings[i] = zeile;
-		
 	}
 	
 	/*

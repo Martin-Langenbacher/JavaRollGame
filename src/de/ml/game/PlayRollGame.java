@@ -2,7 +2,9 @@ package de.ml.game;
 
 import java.awt.Point;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.Clock;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Scanner;
@@ -14,7 +16,7 @@ public class PlayRollGame {
 	static Point oldPoint;
 	
 	
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException, IOException {
 		
 		InputStreamReader isr = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(isr);
@@ -22,6 +24,7 @@ public class PlayRollGame {
 		String eingabe;
 		Point startPositionPlayer = new Point(15,11);
 		int dungeonNumber = 0;
+		int exPoints = 0;
 		//char charToStep;
 		
 		
@@ -57,13 +60,15 @@ public class PlayRollGame {
 		Item gold = new Item(3, "Gold", false, 500, new Point(11,5));
 		Item item = new Item(4, "Item Potion", false, 16, new Point(11,6));
 		Item item2 = new Item(5, "Item Potion2", false, 6, new Point(11,7));
-
+		Item challenge = new Item(6, "Math challenge", false, 50, new Point(19,11));
+		
 		
 		ArrayList<Item> monsterAndItems = new ArrayList<>();
 		monsterAndItems.add(smallsword);
 		//monsterAndItems.add(potion);
 		//monsterAndItems.add(gold);
 		//monsterAndItems.add(new Item (4, "Gold", false, 200, new Point(11,6)));
+		monsterAndItems.add(challenge);
 		
 		// Items of Character:
 		ArrayList<Item> itemsOfCharacter = new ArrayList<>();
@@ -136,19 +141,14 @@ public class PlayRollGame {
 		
 		for (int i = 0; i < monsterAndItems.size(); i++) {
 			dungeons.get(dungeonNumber).setBoardField((smallsword.getItemPosition().x*2), smallsword.getItemPosition().y, '?');
+			dungeons.get(dungeonNumber).setBoardField((challenge.getItemPosition().x*2), challenge.getItemPosition().y, '&');
 			
 			System.out.println("i: monsterAndItems: " +i);
 		}
 		
-		//dungeons.get(dungeonNumber).setBoardField(23,4,'O');
-		
-		
-		
-		/*
-		
-		
-		public void setBoardField(int x, int y, char value) {
 			
+		/*	
+		public void setBoardField(int x, int y, char value) {
 			StringBuilder myString = new StringBuilder(this.boardStrings[y]);
 			myString.setCharAt(x, value);
 			this.boardStrings[y] = myString.toString(); 
@@ -156,15 +156,7 @@ public class PlayRollGame {
 		*/
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	
 		
 		
 		
@@ -296,38 +288,12 @@ public class PlayRollGame {
 			
 			
 			
-			// 5) Erreignis: Ja / Nein?
+			// 5) Erreignisse: Ja / Nein?
 			
+			//
+			// 5a) --> Kampf
+			//
 			
-			
-			
-			
-			/*
-			System.out.println(player.getCharacterPosition());
-			System.out.println(monsterAndItems.get(0).getItemPosition());
-			System.out.println(monsterAndItems.get(1).getItemPosition());
-			System.out.println(monsterAndItems.get(2).getItemPosition());
-			System.out.println(monsterAndItems.get(3).getItemPosition());
-			*/
-			
-			
-			//System.out.println(monsterAndItems.get(4).getItemPosition());
-			//System.out.println(monsterAndItems.get(5).getItemPosition());
-			
-			
-			for (int i = 0; i < monsterAndItems.size(); i++) {
-				if (player.getCharacterPosition().equals(monsterAndItems.get(i).getItemPosition())) {
-					System.out.println("-------> Sie stehen auf einem Item und können was tun; danach wird item unsichtbar");
-					System.out.println("Dies ist Item: -->" +monsterAndItems.get(i).getItemName());
-					monsterAndItems.get(i).setVisible(false);
-				}
-			}
-			
-			
-			
-			
-			
-			// 6a) Mache Erreignis (z.B. Kampf)
 			if (player.getCharacterPosition().equals(monster1.getCharacterPosition())) {
 				System.out.println("Start Kampf.... -----> Hier ist ein Monster");
 				
@@ -352,16 +318,7 @@ public class PlayRollGame {
 						break;
 					}
 					
-					
-					
-					
-					
-					
-					
 				} while (board.isFighting());
-				
-				
-				
 				
 				
 				
@@ -376,11 +333,109 @@ public class PlayRollGame {
 				System.out.println("Ende Kampf   UND weiter...!");
 				board.printBoard(dungeons.get(dungeonNumber), player, monsterAndItems, itemsOfCharacter, monster1);
 				
-				
-				
-				
-				
 			}
+			
+			
+			
+			
+			//
+			// 5b) --> Math
+			//
+			
+			
+			
+			for (int i = 0; i < monsterAndItems.size(); i++) {
+				if (player.getCharacterPosition().equals(monsterAndItems.get(i).getItemPosition())) {
+					System.out.println("-------> Sie stehen auf einem Item und können was tun; danach wird item unsichtbar");
+					System.out.println("Dies ist Item: -->" +monsterAndItems.get(i).getItemName());
+					monsterAndItems.get(i).setVisible(false);
+					
+					// here starts the math task:
+					System.out.println("Hier startet die Mathe-Aufgabe!");
+					
+					board.setAufgabe(true);
+					int resultInput = 0;
+					int mathResult = board.mathChallenge(board, player);
+					Long startTime;
+					Long endTime;
+					
+					startTime = Clock.systemUTC().millis();
+					
+					
+					board.printBoard(dungeons.get(dungeonNumber), player, monsterAndItems, itemsOfCharacter, monster1);
+					
+					try {
+						eingabe = br.readLine();
+						resultInput = Integer.parseInt(eingabe);
+					}
+
+					catch (NumberFormatException ausnahme) {
+						System.out.println("Eingabe falsch: Keine Punkte!!!");
+						break;
+						//continue;
+					}
+					
+					
+					/*
+					while (true) {
+						try {
+							eingabe = br.readLine();
+							resultInput = Integer.parseInt(eingabe);
+						}
+
+						catch (NumberFormatException ausnahme) {
+							System.out.println("Eingabe falsch: Keine Punkte!!!");
+							break;
+							//continue;
+						}
+					}
+					*/
+					
+					if (mathResult == resultInput) {
+						System.out.println("Ergebnis ist richtig, darum + Experience!!!!!!!!!!!!!!!!!!!!!");
+						endTime = Clock.systemUTC().millis();
+						System.out.println(endTime - startTime);
+						System.out.println(150-(endTime - startTime)/100);
+						exPoints = (int) (150-(endTime - startTime)/100);
+						if (exPoints < 50) {
+							exPoints = 50;
+							
+						}
+						player.setExperience(player.getExperience()+ exPoints);
+						
+					}
+					
+					
+					
+					
+					
+					
+					
+					
+				}
+				
+				
+				// Questions to André:
+				//			1) Player mit "Rucksack" ..args.!
+				// 			2) Wie bekomme ich eine Message unten rein?
+				// 			3) Tür: Was ist zu tun?
+				// 			4) Code: zu kompliziert?
+				
+				
+				
+				
+				
+				
+					
+				board.printBoard(dungeons.get(dungeonNumber), player, monsterAndItems, itemsOfCharacter, monster1);
+				System.out.println("ENDE: ---> Mathe-Aufgabe!");
+				board.setAufgabe(false);
+				board.printBoard(dungeons.get(dungeonNumber), player, monsterAndItems, itemsOfCharacter, monster1);
+					
+				}
+			
+			
+			
 			
 			
 			
@@ -396,7 +451,7 @@ public class PlayRollGame {
 			
 			
 			
-			// 7) Player hat verlohren? Sonst weiter ...
+			// 7) Player hat verlohren? Sonst weiter ... ==> ist schon oben drin ;-)
 			
 			
 			
@@ -410,7 +465,7 @@ public class PlayRollGame {
 		
 		
 		
-		
+		// game not playing == gameOver !!!
 		gameOver();	
 		
 		

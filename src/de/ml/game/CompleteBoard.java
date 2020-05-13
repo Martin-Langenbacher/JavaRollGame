@@ -27,6 +27,7 @@ public final class CompleteBoard {
 	int itemsCounter;
 	int delta;
 	boolean fighting = false;
+	boolean aufgabe = false;
 	String lifePoints;
 	
 	
@@ -42,7 +43,20 @@ public final class CompleteBoard {
 		this.fighting = fighting;
 	}
 
+
+	public boolean isAufgabe() {
+		return aufgabe;
+	}
+
+
+	public void setAufgabe(boolean aufgabe) {
+		this.aufgabe = aufgabe;
+	}
+	
+	
 //==============================================================================================
+
+
 
 
 
@@ -360,7 +374,9 @@ public final class CompleteBoard {
 					
 					boardWithContent[i] = " |   s + d   |      h: use healing       |  Fighting value:" +empty.repeat(10-lengthOfString) + zahl + " |" +empty.repeat(4-lengthOfZahl) +zahl2 + empty.repeat(23) + "|";
 					
-				} else {
+				} else if (aufgabe){
+					boardWithContent[i] = " |   s + d   |                           |     Calculate fast, to get most points:                |";
+				}else {
 					boardWithContent[i] = " |   s + d   |                           |                                                        |";
 				}
 				break;
@@ -383,7 +399,9 @@ public final class CompleteBoard {
 			case 26:
 				if (fighting) {
 					boardWithContent[i] = " |   ==> Bitte wählen!                   " + messageString;
-				} else {
+				} else if (aufgabe) {
+					boardWithContent[i] = " |   ==> Bitte wählen!                   " + messageString;
+				}else {
 					boardWithContent[i] = " |   ==> Bitte wählen!                   |                                                        |";
 				}
 				break;
@@ -425,8 +443,6 @@ public final class CompleteBoard {
 
 	public void fightingWithMonster(CompleteBoard completeBoard, Character player, Character monster) {
 		
-		String playerName = player.getCharacterName();
-		String monsterName = monster.getCharacterName();
 		int playerDiceResult;
 		int monsterDiceResult;
 		int playerFightValue;
@@ -489,6 +505,52 @@ public final class CompleteBoard {
 		}
 		
 		
+	}
+
+	
+	
+
+	public int mathChallenge(CompleteBoard board2, Character player) {
+		
+		int mathResult = 0;
+		char mathChar;
+		int space = 30;
+		int number1 = (int) ((Math.random() * 10) + 1);
+		int number2 = (int) ((Math.random() * 10) + 1);
+		int caseForOperation = (int) ((Math.random() * 4) + 1);
+		switch (caseForOperation) {
+		case 3:
+			mathResult = number1 + number2;
+			mathChar = '+';
+			messageString = "|     --->  What is " + number1 + " " +mathChar + " " +number2 +" ?" + empty.repeat(space) + "|";
+		break;
+		case 4:
+			if (number2 > number1) {
+				mathResult = number2;
+				number2 = number1;
+				number1 = mathResult;
+			} 
+			mathResult = number1 - number2;
+			mathChar = '-';
+			messageString = "|     --->  What is " + number1 + " " +mathChar + " " +number2 +" ?" + empty.repeat(space) + "|";
+		break;
+		case 1:
+			mathResult = number1 * number2;
+			mathChar = '*';
+			messageString = "|     --->  What is " + number1 + " " +mathChar + " " +number2 +" ?" + empty.repeat(space) + "|";
+			break;
+		case 2:
+			mathResult = number1 * number2;
+			number1 = mathResult;
+			mathResult = number1 / number2;
+			mathChar = '/';
+			messageString = "|     --->  What is " + number1 + " " +mathChar + " " +number2 +" ?" + empty.repeat(space-1) + "|";
+			break;
+		default:
+			break;
+		}
+		
+		return mathResult;
 	}
 		
 	
