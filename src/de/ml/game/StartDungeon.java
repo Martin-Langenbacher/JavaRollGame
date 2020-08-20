@@ -30,6 +30,26 @@ public class StartDungeon extends DungeonBoard{
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Zum lernen von André:
 
 // Die Instanzmethoden sind allein dafür da, entweder Informationen über den Objektzustand in irgendeiner Form nach

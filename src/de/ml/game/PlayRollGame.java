@@ -123,7 +123,7 @@ public class PlayRollGame {
 		dungeons.get(0).setBoardField(39,11,'o');
 		dungeons.get(0).setBoardField(21,11,'o');
 		
-		dungeons.get(0).setBoardField(22,9,'1');
+		dungeons.get(0).setBoardField(22,9,'1');aufgabe
 		dungeons.get(0).setBoardField(24,9,'2');
 		dungeons.get(0).setBoardField(26,9,'3');
 		dungeons.get(0).setBoardField(28,9,'4');
